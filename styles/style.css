@@ -1,0 +1,363 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+
+    background-color: #F5F8F8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.form{
+    border:2px solid black;
+    border-radius: 2%;
+    width: 545px;
+    background-color: white;
+    
+    margin: 120px auto;
+}
+.form-table{
+    display: flex;
+    align-items: center;
+    background-color:  #F5F5F5;
+    padding-left: 10px;
+    color: black;
+    font-size: 20px;
+    margin: 20px 15px 20px 15px;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 500px;
+    height: 50px;
+  
+}
+.form-register{
+    font-size: 23px;
+    font-weight: bold;
+   text-align: center;
+}
+.form-button{
+    background-color: #333333;
+    color:white;
+    padding: 10px 15px;
+    width: 150px;
+    font-size: 15px;
+    height: 40px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+.center{
+text-align: center;
+}
+.form-login{
+font-size: 23px;
+    font-weight: bold;
+   text-align: center;
+   color: #666666;
+}
+.form-link{
+text-decoration: none;
+color: black;
+}
+.errMsg{
+    color: red;
+    font-size: 17px;
+}
+
+
+/* Header */
+
+.navBar {
+    display: flex;
+    
+    justify-content: space-around;
+    align-items: center;
+    height: 80px;
+
+}
+
+.nav {
+    display: flex;
+    list-style: none;
+
+
+}
+
+.nav li a {
+    text-decoration: none;
+    padding: 20px;
+    margin: 20px;
+    color: black;
+}
+
+.nav li a:hover {
+
+    color: #F4BE40;
+}
+
+.primeLogo {
+    position: relative;
+    top: 6px;
+    right: 90px;
+    height: 300px;
+    width: 300px;
+}
+
+.login-button,
+.register-button {
+    background-color: #263675;
+    color: white;
+    padding: 10px 15px;
+    width: 100px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+
+
+}
+
+.login-button a,
+.register-button a {
+    text-decoration: none;
+    color: white;
+}
+
+.login-button:hover,
+.register-button:hover {
+    background-color: #0B5ED7;
+}
+
+.search-img {
+    width: 35px;
+    height: 35px;
+    position: relative;
+    left: 80px;
+}
+
+.search-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.inputBar {
+    position: fixed;
+    top: 50px;
+    left: 68%;
+    width: 500px;
+    height: 50px;
+    display: none;
+    font-size: 18px;
+    background-color: #F6F6F6;
+
+}
+
+.cart-link {
+    color: white;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.cart-icon {
+    width: 130px;
+    position: relative;
+    left: 25px;
+
+
+}
+
+.cart-text {
+
+    font-size: 15px;
+    font-weight: 700;
+    color: black;
+}
+
+.cart-quantity {
+    color: rgb(240, 136, 4);
+    font-size: 16px;
+    font-weight: 700;
+    align-items: center;
+    position: absolute;
+    left: 87px;
+    bottom: 70px;
+    width: 26px;
+    text-align: center;
+}
+.section-title{
+    display: flex;
+    font-size: 50px;
+    color: #263675;
+    font-weight: bold;
+    margin: 80px 40px 40px 100px;
+}
+.color{
+    color: #F4BE40;
+    text-decoration: underline;
+}
+
+
+/* About us */
+
+
+
+.big-text {
+    color: black;
+    font-size: 35px;
+
+}
+
+.info-text {
+    color: #BDBDBD;
+    font-size: 18px;
+}
+
+.about-text {
+    margin: 100px;
+    position: relative;
+    line-height: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.food-item {
+    display: flex;
+    justify-content: space-around;
+    margin: 100px;
+}
+
+.food-item img {
+    height: 225px;
+
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px gray;
+    width: 275px;
+}
+
+.food-item p {
+    line-break: anywhere;
+}
+
+.menu-item {
+    display: flex;
+}
+
+.menu-item img {
+    width: 50px;
+    height: 50px;
+}
+
+.alignment {
+    margin: 0px 50px 50px 50px;
+    text-align: center;
+}
+
+.menu-item {
+    display: flex;
+}
+.item1,.item2,.item3,.item4,.item5,.item6,.item7,.item8{
+   background-color: white;
+    border-radius: 10px;
+    padding: 20px 40px;
+    margin: 10px;
+}
+.menu-container{
+    display: flex;
+    width: 50%;
+    height: fit-content;
+}
+.text-alignment{
+    margin-left: 120px;
+}
+
+
+/* Contact  */
+
+.contact-container {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.contact-text p {
+    text-align: center;
+    font-size: 35px;
+    margin: 100px;
+}
+
+.contact-main-box {
+    display: flex;
+    margin: 0px 100px 30px 100px;
+    justify-content: space-around;
+}
+
+.contact-box {
+    background-color: #E7E9E8;
+    padding: 40px;
+    width: 300px;
+    height: 100px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    transition: background-color 1s, color 1s;
+}
+
+.contact-box img {
+    position: relative;
+    bottom: 30px;
+    width: 100px;
+    height: 90px;
+}
+.contact-box:hover {
+    background-color: #263675;
+    color: white;
+}
+.contact-box p {
+    position: relative;
+}
+
+.contact-text1 {
+    bottom: 10px;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.contact-text2 {
+    bottom: 30px;
+    font-size: 23px;
+}
+
+.contact-text3 {
+    bottom: 90px;
+    font-size: 23px;
+}
+
+.contact-form {
+    border: 2px solid #E7E9E8;
+    margin: 50px 127px 0px 127px;
+    padding: 80px;
+    line-height: 0.75cm;
+}
+
+.contact-form-text {
+    color: #263675;
+    margin-bottom: 30px;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.contact-input {
+    margin-bottom: 20px;
+    width: 375px;
+    height: 30px;
+}
+
+.contact-form-submit {
+    background-color: #263675;
+    border: none;
+    color: white;
+    width: 100px;
+    height: 45px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
