@@ -70,11 +70,11 @@
             </div>
 
             <div class="box">
-                <h3>extra links</h3>
-                <a href="login.php">login</a>
-                <a href="register.php">register</a>
-                <a href="orders.php">my orders</a>
-                <a href="cart.php">my cart</a>
+                <h3>Opening time</h3>
+                <a href="#">Monday-Friday</a>
+                <a href="#p">06:00 am to 06:00 pm</a>
+                <a href="#">Saturday-sunday</a>
+                <a href="#">09:00 am to 05:00 pm</a>
             </div>
 
             <div class="box">

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .product-container {
+            border: 1px solid gainsboro;
+            padding: 0px 30px 30px 30px;
+        }
+
+        .product-container>p {
+            color: #263675;
+            font-weight: bold;
+            font-size: 40px;
+            line-height: 0px;
+
+        }
+        .products-grid{
+           
+            display: flex;
+        }
+
+        .product-image {
+            width: 220px;
+            height: 260px;
+            border-radius: 30px;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+
+        .product-name {
+            font-weight: bold;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .product-item {
+            margin-right: 50px;
+            width: 15%;
+        }
+
+        .product-price {
+            color: red;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+        }
+        .product-quantity-container{
+            display: flex;
+            margin-top: 10px;
+           justify-content: center;
+        }
+        .product-quantity-container select {
+            background-color: #F0F0F0;
+            padding: 5px;
+            border-radius: 7px;
+           
+        }
+
+        .added-to-cart {
+            display: none;
+        }
+
+        .product-spacer {
+            flex: 1;
+        }
+        .add-to-cart-button{
+            background-color: #F4BE40;
+            margin-top: 20px;
+            width: 200px;
+            height: 40px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="product-container">
+        <p>Featured</p>
+        <div class="products-grid js-products-grid">
+
+        </div>
+        
+    </div>
+    <script  type="module" src="scripts/script.js"></script>
+</body>
+
+</html>

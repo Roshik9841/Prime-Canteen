@@ -33,11 +33,7 @@
                 <button class="login-button"><a href="login.html">Login</a></button>
                 <button class="register-button"><a href="registration.html">Register</a></button>
             </div>
-            <div>
-                <button class="search-button js-search"><img class="search-img"
-                        src="images/pngtree-vector-search-icon-png-image_320926-removebg-preview.png"></button>
-
-            </div>
+         
             <div>
                 <a class="cart-link header-link" href="checkout.html">
                     <img class="cart-icon" src="images/cart-icon (2).png">
@@ -47,13 +43,13 @@
             </div>
 
         </div>
-        <input type="text" class="js-input inputBar" placeholder="search here...">
+ 
     
        
     </div>
-    <script src="scripts/script.js">
+  
      
-    </script>
+
 
 </body>
 
