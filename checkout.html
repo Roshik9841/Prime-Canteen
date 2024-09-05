@@ -20,8 +20,10 @@
 
         }
         .products-grid{
-           
             display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 20px; /* Adds space between items */
+    justify-content: flex-start; /* Align items to the left */
         }
 
         .product-image {
@@ -41,16 +43,18 @@
         }
 
         .product-item {
-            margin-right: 50px;
-            width: 15%;
+            width: calc(20% - 20px); /* Adjust the width to fit within the container */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    margin-bottom: 20px; /* Adds space bel*/
         }
 
         .product-price {
             color: red;
             font-size: 18px;
-            display: flex;
-            justify-content: center;
-        }
+            /* display: flex;
+            justify-content: center; */
+            text-align: center;
+            }
         .product-quantity-container{
             display: flex;
             margin-top: 10px;

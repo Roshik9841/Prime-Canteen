@@ -102,7 +102,7 @@
     </section>
    
     <div class="credit">&copy; copyright @
-        <?php echo date('Y'); ?> by <span>Mr.Roshik. All Rights reserved</span>
+        <?php echo date('Y'); ?> by <span> Mr.Roshik. All Rights reserved</span>
     </div>
 
 </body>

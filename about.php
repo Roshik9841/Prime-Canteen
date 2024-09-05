@@ -6,6 +6,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About us</title>
     <link rel="stylesheet" href="styles/style.css">
+    <style>
+        
+
+.big-text {
+    color: black;
+    font-size: 35px;
+
+}
+
+.info-text {
+    color: #BDBDBD;
+    font-size: 18px;
+}
+
+.about-text {
+    margin: 100px;
+    position: relative;
+    line-height: 40px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.food-item {
+    display: flex;
+    justify-content: space-around;
+    margin: 100px;
+}
+
+.food-item img {
+    height: 225px;
+
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px gray;
+    width: 275px;
+}
+
+.food-item p {
+    line-break: anywhere;
+}
+
+.menu-item {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.menu-item img {
+    width: 90px;
+    height: 100px;
+}
+
+.alignment {
+    margin: 0px 50px 50px 50px;
+    text-align: center;
+}
+
+.menu-item {
+    display: flex;
+}
+.item1,.item2,.item3,.item4,.item5,.item6,.item7,.item8{
+   background-color: ##FFFFFF;
+   border: 1px solid;
+    border-radius: 10px;
+    padding: 20px 40px;
+    margin: 10px;
+}
+.menu-container{
+    display: flex;
+    width: 55%;   
+    flex-wrap: wrap;
+    height: fit-content;
+}
+.text-alignment{
+    margin-left: 120px;
+    margin-top: 150px;
+    font-weight: bold;
+    margin-right: 50px;
+}
+
+        </style>
+
 </head>
 
 <body>
