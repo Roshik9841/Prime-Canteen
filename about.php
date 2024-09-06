@@ -5,93 +5,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About us</title>
-    <link rel="stylesheet" href="styles/style.css">
+
     <style>
-        
+    
+        .big-text {
+            color: black;
+            font-size: 35px;
 
-.big-text {
-    color: black;
-    font-size: 35px;
+        }
 
-}
+        .info-text {
+            color: #BDBDBD;
+            font-size: 18px;
+        }
 
-.info-text {
-    color: #BDBDBD;
-    font-size: 18px;
-}
+        .about-text {
+            margin: 100px;
+            position: relative;
+            line-height: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.about-text {
-    margin: 100px;
-    position: relative;
-    line-height: 40px;
-    text-align: center;
-    margin-bottom: 20px;
-}
+        .food-item {
+            display: flex;
+            justify-content: space-around;
+            margin: 100px;
+        }
 
-.food-item {
-    display: flex;
-    justify-content: space-around;
-    margin: 100px;
-}
+        .food-item img {
+            height: 225px;
 
-.food-item img {
-    height: 225px;
+            border-radius: 20px;
+            box-shadow: 5px 5px 10px gray;
+            width: 275px;
+        }
 
-    border-radius: 20px;
-    box-shadow: 5px 5px 10px gray;
-    width: 275px;
-}
+        .food-item p {
+            line-break: anywhere;
+        }
 
-.food-item p {
-    line-break: anywhere;
-}
+        .menu-item {
+            display: flex;
+            margin-bottom: 50px;
+        }
 
-.menu-item {
-    display: flex;
-    margin-bottom: 50px;
-}
+        .menu-item img {
+            width: 90px;
+            height: 100px;
+        }
 
-.menu-item img {
-    width: 90px;
-    height: 100px;
-}
+        .alignment {
+            margin: 0px 50px 50px 50px;
+            text-align: center;
+        }
 
-.alignment {
-    margin: 0px 50px 50px 50px;
-    text-align: center;
-}
+        .menu-item {
+            display: flex;
+        }
 
-.menu-item {
-    display: flex;
-}
-.item1,.item2,.item3,.item4,.item5,.item6,.item7,.item8{
-   background-color: ##FFFFFF;
-   border: 1px solid;
-    border-radius: 10px;
-    padding: 20px 40px;
-    margin: 10px;
-}
-.menu-container{
-    display: flex;
-    width: 55%;   
-    flex-wrap: wrap;
-    height: fit-content;
-}
-.text-alignment{
-    margin-left: 120px;
-    margin-top: 150px;
-    font-weight: bold;
-    margin-right: 50px;
-}
+        .item1,
+        .item2,
+        .item3,
+        .item4,
+        .item5,
+        .item6,
+        .item7,
+        .item8 {
+            background-color: #DCDCDC;
+  
+            border-radius: 10px;
+            padding: 20px 40px;
+            margin: 10px;
+        }
 
-        </style>
+        .menu-container {
+            display: flex;
+            width: 55%;
+            flex-wrap: wrap;
+            height: fit-content;
+        }
+        .menu-container p {
+            display: flex;
+            justify-content: center;
+        }
+
+        .text-alignment {
+            margin-left: 120px;
+            margin-top: 150px;
+            font-weight: bold;
+            margin-right: 50px;
+        }
+    </style>
 
 </head>
 
 <body>
     <?php
     include('HeaderFooter/header.php');
-    ?> 
+    ?>
     <div class="about-us-container">
         <div class="about-text">
             <p class="info-text">WHO WE ARE <br>
@@ -117,11 +129,11 @@
             <div class="menu-container">
 
 
-                <div class="item1"><img src="images/momoLogo.jpg">
+                <div class="item1"><img src="images/momoLogo-removebg-preview.png">
                     <p> Momo</p>
                 </div>
                 <div class="item2">
-                    <img src="images/chowmeinLogo.webp">
+                    <img src="images/Screenshot_3-removebg-preview.png">
                     <p> Chowmein </p>
                 </div>
                 <div class="item3">
@@ -129,12 +141,12 @@
                     <p> Samosha</p>
                 </div>
                 <div class="item4">
-                    <img src="images/popsicleLogo.webp">
+                    <img src="images/Screenshot_5-removebg-preview.png">
                     <p> Kulfi </p>
                 </div>
-               
+
                 <div class="item5">
-                    <img src="images/coldDrinkLogo.jpg">
+                    <img src="images/coldDrinkLogo-removebg-preview.png">
                     <p> Cold Drink</p>
                 </div>
                 <div class="item6">
@@ -142,11 +154,11 @@
                     <p> Sandwich</p>
                 </div>
                 <div class="item7">
-                    <img src="images/pakodaLogo.avif">
+                    <img src="images/Screenshot_4-removebg-preview.png">
                     <p> Pakoda</p>
                 </div>
                 <div class="item8">
-                    <img src="images/bugerLogo.jpg">
+                    <img src="images/bugerLogo-removebg-preview.png">
                     <p> Burger</p>
                 </div>
             </div>
