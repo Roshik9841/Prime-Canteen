@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <link rel="stylesheet" href="styles/style.css" type="text/css">
     <style>
         .product-container {
-            border: 1px solid gainsboro;
+            /* border: 1px solid gainsboro; */
             padding: 0px 30px 30px 30px;
             margin-top: 100px;
         }
@@ -24,11 +24,10 @@
         .products-grid {
             display: flex;
             flex-wrap: wrap;
-            /* Allows items to wrap to the next line */
             gap: 25px;
-            /* Adds space between items */
+           margin-left: 50px;
             justify-content: flex-start;
-            /*  Align items to the left */
+
         }
 
         .product-image-container {
@@ -67,11 +66,11 @@
 
         .product-item {
             width: calc(20% - 20px);
-            /* Adjust the width to fit within the container */
+
             box-sizing: border-box;
-            /* Ensures padding and border are included in the width */
+          
             margin-bottom: 20px;
-            /* Adds space bel*/
+      
         }
 
         .product-price {
@@ -115,6 +114,9 @@
             font-weight: bold;
             cursor: pointer;
         }
+        .product-text{
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 
@@ -124,7 +126,7 @@
     ?>
 
     <div class="product-container">
-        <p>Featured</p>
+        <p class="product-text">Featured</p>
         <div class="products-grid js-products-grid">
 
         </div>

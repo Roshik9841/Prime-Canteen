@@ -175,12 +175,124 @@ body {
     font-size: 50px;
     color: #263675;
     font-weight: bold;
-    margin: 80px 40px 40px 100px;
+    margin: 80px 40px 40px 150px;
 }
 
 .color {
     color: #F4BE40;
     text-decoration: underline;
+    margin-left: 20px;
+}
+
+.index-info {
+    display: flex;
+    margin: 70px 150px 30px 150px;
+}
+
+.h1-text {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.5cm;
+    margin-bottom: 20px;
+    margin-right: 70px;
+}
+
+.index-text-color {
+    color: #808080;
+    font-size: 23px;
+    margin-bottom: 50px;
+}
+
+.index-info-text button {
+    background-color: #F4BE40;
+    padding: 15px 30px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+
+}
+
+.index-info-text button a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+
+}
+
+.index-info-logo img {
+    width: 70px;
+    height: 70px;
+    background-color: #F4BE40;
+    border-radius: 50%;
+}
+
+.index-info-logo {
+    display: flex;
+
+    width: 600px;
+    flex-wrap: wrap;
+}
+
+.info-index-1,
+.info-index-2,
+.info-index-3,
+.info-index-4 {
+    margin: 0px 40px 30px 40px;
+    font-size: 19px;
+}
+
+.categories {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 100px;
+    margin-right: 800px;
+}
+
+.categories img {
+    width: 250px;
+    height: 300px;
+    border-radius: 30px;
+    object-fit: cover;
+    object-position: 50% 20%;
+    transition: transform 0.3s ease;
+}
+
+.meals-description {
+    border: 1px solid #eaeaea;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 30px;
+}
+
+.meals-description:hover .meals-img {
+    transform: scale(1.1);
+
+}
+
+.categories-btn {
+    border: none;
+    background-color: transparent;
+    font-size: 25px;
+    font-weight: bold;
+    color: #F4BE40;
+    cursor: pointer;
+
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+.categories-text {
+    color: #263675;
+    font: bold 40px Arial;
+    margin-left: 150px;
+
+}
+
+.meals-text {
+    text-align: center;
+    margin-top: 20px;
+    font: bold 20px Arial;
 }
 
 
