@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="header-container">
         <div class="navBar">
             <div>
 
@@ -27,12 +27,12 @@
                 </ul>
             </div>
             <div>
-                <button class="login-button"><a href="login.html">Login</a></button>
-                <button class="register-button"><a href="registration.html">Register</a></button>
+                <button class="login-button"><a href="login.php">Login</a></button>
+                <button class="register-button"><a href="registration.php">Register</a></button>
             </div>
 
             <div>
-                <a class="cart-link header-link" href="checkout.html">
+                <a class="cart-link header-link" href="cart.php">
                     <img class="cart-icon" src="images/cart-icon (2).png">
                     <div class="cart-quantity js-cart-quantity">0</div>
                     <div class="cart-text">Cart</div>

@@ -1,24 +1,33 @@
-<?php 
+<?php
 include('dbconnection.php');
 
-if(isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {
+
     $name = $_POST['username'];
     $number = $_POST['number'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-   
-    // Query for data insertion
-    $query = mysqli_query($con, "INSERT INTO registration (Username, Number, Email, password) VALUES ('$name', '$number', '$email', '$password')");
-    
-    if ($query) {
-        echo "<script>alert('You have successfully registered. You will be redirected to the login page.');</script>";
-        echo "<script type='text/javascript'> document.location ='login.php'; </script>";
-    } else {
-        echo "<script>alert('Something Went Wrong. Please try again');</script>";
-    }
-}
-?> 
 
+    // Hash the password for security
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Simple query using prepared statements to avoid SQL injection
+    $stmt = $con->prepare("INSERT INTO userinfo (Username, Number, Email, Password) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $number, $email, $hashed_password);
+
+  
+    if ($stmt->execute()) {
+        echo "<script>alert('Registration successful!');</script>";
+        echo "<script>window.location.href = 'login.php';</script>";
+    } else {
+        echo "<script>alert('Error occurred, please try again.');</script>";
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+    $con->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,39 +58,40 @@ if(isset($_POST['submit'])) {
         </form>
     </div>
     <script>
+      let username = document.querySelector('.js-user');
+let number = document.querySelector('.js-num');
+let email = document.querySelector('.js-email');
+let pass = document.querySelector('.js-password');
+let error = document.querySelector('.js-error');
+let form = document.querySelector('.form');
 
-        let username = document.querySelector('.js-user');
-        let number = document.querySelector('.js-num');
-        let email = document.querySelector('.js-email');
-        let pass = document.querySelector('.js-password');
-        let error = document.querySelector('.js-error');
-        let form = document.querySelector('.form');
+form.addEventListener('submit', function(event) {
+    // Regular expression patterns
+    let passPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,30}$/;
+    let emailPattern = /^[^ \s@]+@[^\s@]+\.[^\s@]+$/;
+    let phonePattern = /^\d{10}$/;
 
+    // Test the patterns against the values
+    let validPass = passPattern.test(pass.value);
+    let validEmail = emailPattern.test(email.value);
+    let validPhone = phonePattern.test(number.value);
 
-
-        form.addEventListener('submit', function () {
-            let passRule = /[A-Z]/;
-            let res2 = passRule.test(pass.value);
-
-            let passRule2 = /[0-9]/;
-            let res3 = passRule2.test(pass.value);
-            if (username.value == '' || number.value == '' || email.value == '' || pass.value == '') {
-                error.innerHTML = 'Please fill up all the forms';
-                event.preventDefault();
-            } else if (!res2) {
-                error.innerHTML = 'Password must contain atlease one Capital Letter';
-                event.preventDefault();
-            } else if (!res3) {
-                error.innerHTML = 'password must contain atleast one number';
-                event.preventDefault();
-            } else if (number.value.length < 10 || number.value.length > 10) {
-                error.innerHTML = 'Number must contain  10 digits';
-                event.preventDefault();
-            } else {
-                error.innerHTML = '';
-            }
-        })
-
+    if (username.value === '' || number.value === '' || email.value === '' || pass.value === '') {
+        error.innerHTML = 'Please fill up all the forms';
+        event.preventDefault();
+    } else if (!validPass) {
+        error.innerHTML = 'Password must contain at least one capital letter, one number, and one special character.';
+        event.preventDefault();
+    } else if (!validEmail) {
+        error.innerHTML = 'Please enter a valid email address.';
+        event.preventDefault();
+    } else if (!validPhone) {
+        error.innerHTML = 'Phone number must contain exactly 10 digits.';
+        event.preventDefault();
+    } else {
+        error.innerHTML = '';
+    }
+});
     </script>
 </body>
 

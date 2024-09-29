@@ -5,55 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        *{
-            margin: 0px;
-            padding: 0px;
-        }
-        .footer {
-            padding-top:60px ;
-            padding-bottom: 40px;
-
-            background-color: white;
-            color: black;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #263675;
-        }
-
-       .box-container{
-        display: flex;
-      
-       }
-       .box a{
-        display: block;
-        text-decoration: none;
-        color:white ;  
-        padding-bottom: 20px;
-       }
-       .box p{
-        padding-bottom: 20px;
-
-        color: white;
-       }
-       .box h3{
-        text-transform: uppercase;
-        font-weight: bold;
-        font-size: 20px;
-        margin-bottom: 30px;
-        color: #A8AFC8;
-       }
-       .box{
-        margin-left: 180px;
-       }
-       .credit{
-        background-color: #0B1B5B;
-        color: white;
-        font-size: 15px;
-        padding: 25px;
-        display: flex;
-        justify-content: center;
-       }
-    </style>
+    <link rel="stylesheet" href="styles/style.css" type="text/css">
 </head>
 
 <body>
