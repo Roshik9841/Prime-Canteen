@@ -1,3 +1,6 @@
+<?php
+include("../dbconnection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +13,7 @@
     <h2 class="title">Messages</h2>
     <table>
         <thead>
+            <th>Id</th>
             <th>Name</th>
             <th>Email</th>
             <th>Messages</th>
@@ -17,14 +21,15 @@
         </thead>
         <tbody>
             <?php
-            $select_products = mysqli_query($con, "SELECT * FROM userinfo ");
+            $select_products = mysqli_query($con, "SELECT * FROM contact ");
             if(mysqli_num_rows($select_products)>0){
                 while($row=mysqli_fetch_assoc($select_products)){
             ?>
             <tr>
                 <td><?php echo $row['id'];?></td>
-                <td><?php echo $row['Username'];?></td>
-                <td><?php echo $row['Email'];?></td>
+                <td><?php echo $row['name'];?></td>
+                <td><?php echo $row['email'];?></td>
+                <td><?php echo $row['msg'];?></td>
                 
             </tr>
             <?php
