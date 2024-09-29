@@ -100,7 +100,8 @@
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Orders</a></li>
                     <li><a href="#">Products</a></li>
-                    <li><a href="#">Users</a></li>
+                    <li><a href="userview.php">Users</a></li>
+                    <li><a href="message.php">Messages</a></li>
                 </ul>
             </div>
             <div class="user-btn">
@@ -110,7 +111,7 @@
         <div class="user-info js-info">
             <p class="username">Username: Roshik Maharjan</p>
             <p class="email">email: roshik9841@gmail.com</p>
-            <button class="logout-btn js-logout">LogOut</button>
+            <button class="logout-btn js-logout"><a href = "../logout.php">LogOut</a></button>
         </div>
     </div>
     <script>
