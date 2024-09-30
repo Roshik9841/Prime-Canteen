@@ -76,6 +76,10 @@
             color: white;
             cursor: pointer;
         }
+        .logout-btn a{
+            text-decoration: none;
+            color: white;
+        }
 
         .logout-btn:hover {
             background-color: #333333;
@@ -84,6 +88,10 @@
         .username,
         .email {
             margin: 10px 0;
+        }
+        .container{
+            margin-bottom: 40px;
+
         }
 
     </style>
@@ -101,7 +109,7 @@
                     <li><a href="#">Orders</a></li>
                     <li><a href="#">Products</a></li>
                     <li><a href="userview.php">Users</a></li>
-                    <li><a href="message.php">Messages</a></li>
+                    <li><a href="messages.php">Messages</a></li>
                 </ul>
             </div>
             <div class="user-btn">

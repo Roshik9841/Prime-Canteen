@@ -8,8 +8,21 @@ include("../dbconnection.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+           th {
+            border: 1px solid black;
+        }
+
+        td {
+            border: 1px solid black
+        }
+
+    </style>
 </head>
 <body>
+<?php
+    include('adminHeader.php');
+    ?>
 <section class="display_product">
     <h2 class="title">User Info</h2>
     <table>
