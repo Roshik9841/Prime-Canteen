@@ -28,9 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (password_verify($pw, $user_data['Password'])) {
                 if ($username === "admin") {
                     $_SESSION['uname'] = $username;
+                    $_SESSION['logged_in']=true;
                     header("Location: adminside1.php");
                     exit;
                 } else {
+                    $_SESSION['logged_in']=true;
                     $_SESSION['uname'] = $username;
                     header("Location: index.php");
                     exit;

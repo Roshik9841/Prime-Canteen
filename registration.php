@@ -2,56 +2,60 @@
 include('dbconnection.php');
 
 if (isset($_POST['submit'])) {
-
-    $user_exist_query= "SELECT * FROM userinfo WHERE username='$_POST[username]' OR email='$_POST[email]'";
-    $res=mysqli_query($con, $user_exist_query);
-    if($res){
-
-        if(mysqli_num_rows($res)>0) //it will be executed if uname or email is already taken
-        {
-            $res_fetch = mysqli_fetch_assoc($res); 
-            if($res_fetch['username']== $_POST['username']){
+    $name =  $_POST['username'];
+    $email = $_POST['email'];
+    
+    // Check if username or email already exists
+    $user_exist_query = "SELECT * FROM userinfo WHERE username='$name' OR email='$email'";
+    $res = mysqli_query($con, $user_exist_query);
+    
+    if ($res) {
+        if (mysqli_num_rows($res) > 0) { // Username or email already taken
+            $res_fetch = mysqli_fetch_assoc($res);
+            // Check if username exists
+            if ($res_fetch['Username'] == $name) {
                 echo "<script>
-                alert('$res_fetch[username] - Username already taken');
+                alert('Username $name is already taken');
+                window.location.href = 'registration.php';
+                </script>";
+            } 
+            // Check if email exists
+            else if ($res_fetch['Email'] == $email) {
+                echo "<script>
+                alert('Email $email is already taken');
                 window.location.href = 'registration.php';
                 </script>";
             }
-            else{
-                echo "<script>
-                alert('$res_fetch[email] - Email already taken');
-                window.location.href = 'registration.php';
-                </script>";
+        } else {
+            $name = $_POST['username'];
+            $number = $_POST['number'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
 
+            // Hash the password for security
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // Simple query using prepared statements to avoid SQL injection
+            $stmt = $con->prepare("INSERT INTO userinfo (Username, Number, Email, Password) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $name, $number, $email, $hashed_password);
+
+
+            if ($stmt->execute()) {
+                echo "<script>alert('Registration successful!');</script>";
+                echo "<script>window.location.href = 'login.php';</script>";
+            } else {
+                echo "<script>alert('Error occurred, please try again.');</script>";
             }
 
+            // Close the statement and connection
+            $stmt->close();
+            $con->close();
         }
     }
 
-    $name = $_POST['username'];
-    $number = $_POST['number'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Hash the password for security
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Simple query using prepared statements to avoid SQL injection
-    $stmt = $con->prepare("INSERT INTO userinfo (Username, Number, Email, Password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $name, $number, $email, $hashed_password);
-
-  
-    if ($stmt->execute()) {
-        echo "<script>alert('Registration successful!');</script>";
-        echo "<script>window.location.href = 'login.php';</script>";
-    } else {
-        echo "<script>alert('Error occurred, please try again.');</script>";
-    }
-
-    // Close the statement and connection
-    $stmt->close();
-    $con->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,40 +86,40 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
     <script>
-      let username = document.querySelector('.js-user');
-let number = document.querySelector('.js-num');
-let email = document.querySelector('.js-email');
-let pass = document.querySelector('.js-password');
-let error = document.querySelector('.js-error');
-let form = document.querySelector('.form');
+        let username = document.querySelector('.js-user');
+        let number = document.querySelector('.js-num');
+        let email = document.querySelector('.js-email');
+        let pass = document.querySelector('.js-password');
+        let error = document.querySelector('.js-error');
+        let form = document.querySelector('.form');
 
-form.addEventListener('submit', function(event) {
-    // Regular expression patterns
-    let passPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,30}$/;
-    let emailPattern = /^[^ \s@]+@[^\s@]+\.[^\s@]+$/;
-    let phonePattern = /^\d{10}$/;
+        form.addEventListener('submit', function(event) {
+            // Regular expression patterns
+            let passPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,30}$/;
+            let emailPattern = /^[^ \s@]+@[^\s@]+\.[^\s@]+$/;
+            let phonePattern = /^\d{10}$/;
 
-    // Test the patterns against the values
-    let validPass = passPattern.test(pass.value);
-    let validEmail = emailPattern.test(email.value);
-    let validPhone = phonePattern.test(number.value);
+            // Test the patterns against the values
+            let validPass = passPattern.test(pass.value);
+            let validEmail = emailPattern.test(email.value);
+            let validPhone = phonePattern.test(number.value);
 
-    if (username.value === '' || number.value === '' || email.value === '' || pass.value === '') {
-        error.innerHTML = 'Please fill up all the forms';
-        event.preventDefault();
-    } else if (!validPass) {
-        error.innerHTML = 'Password must contain at least one capital letter, one number, and one special character.';
-        event.preventDefault();
-    } else if (!validEmail) {
-        error.innerHTML = 'Please enter a valid email address.';
-        event.preventDefault();
-    } else if (!validPhone) {
-        error.innerHTML = 'Phone number must contain exactly 10 digits.';
-        event.preventDefault();
-    } else {
-        error.innerHTML = '';
-    }
-});
+            if (username.value === '' || number.value === '' || email.value === '' || pass.value === '') {
+                error.innerHTML = 'Please fill up all the forms';
+                event.preventDefault();
+            } else if (!validPass) {
+                error.innerHTML = 'Password must contain at least one capital letter, one number, and one special character.';
+                event.preventDefault();
+            } else if (!validEmail) {
+                error.innerHTML = 'Please enter a valid email address.';
+                event.preventDefault();
+            } else if (!validPhone) {
+                error.innerHTML = 'Phone number must contain exactly 10 digits.';
+                event.preventDefault();
+            } else {
+                error.innerHTML = '';
+            }
+        });
     </script>
 </body>
 
