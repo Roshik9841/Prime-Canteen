@@ -3,6 +3,30 @@ include('dbconnection.php');
 
 if (isset($_POST['submit'])) {
 
+    $user_exist_query= "SELECT * FROM userinfo WHERE username='$_POST[username]' OR email='$_POST[email]'";
+    $res=mysqli_query($con, $user_exist_query);
+    if($res){
+
+        if(mysqli_num_rows($res)>0) //it will be executed if uname or email is already taken
+        {
+            $res_fetch = mysqli_fetch_assoc($res); 
+            if($res_fetch['username']== $_POST['username']){
+                echo "<script>
+                alert('$res_fetch[username] - Username already taken');
+                window.location.href = 'registration.php';
+                </script>";
+            }
+            else{
+                echo "<script>
+                alert('$res_fetch[email] - Email already taken');
+                window.location.href = 'registration.php';
+                </script>";
+
+            }
+
+        }
+    }
+
     $name = $_POST['username'];
     $number = $_POST['number'];
     $email = $_POST['email'];
