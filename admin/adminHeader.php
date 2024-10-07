@@ -107,7 +107,7 @@
                 <ul class="nav">
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Orders</a></li>
-                    <li><a href="#">Products</a></li>
+                    <li><a href="addproduct.php">Products</a></li>
                     <li><a href="userview.php">Users</a></li>
                     <li><a href="messages.php">Messages</a></li>
                 </ul>

@@ -1,3 +1,34 @@
+<?php
+    session_start();
+    if (isset($_POST['submit'])) {
+        $productId = $_POST['product_id'];
+        $productName = $_POST['product_name'];
+        $category=$_POST['category_id'];
+        $price = $_POST['price'];
+        $description = $_POST['description'];
+        $picture = $_FILES['picture'];
+        $picture = '';
+        if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
+            $target_dir = "../uploads/";
+            $target_file = $target_dir . basename($_FILES["picture"]["name"]);
+            move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file);
+            $picture = $target_file;
+        }
+        $con = mysqli_connect("localhost", "root", "", "canteen");
+        if ($con) {
+            $query = "INSERT INTO new_product(productId,name,price,detail,image,categoryId) VALUES($productId,'$productName','$price','$description','$picture','$category')";
+            $result = mysqli_query($con, $query);
+             if ($result) {
+                echo "Inserted Sucessfully";
+            } else {
+                die("Error inserting data");
+            }
+         
+        }
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,13 +84,13 @@
     include('adminHeader.php');
     ?>
     <div class="add-product-form">
-        <form action="" method="POST" class="form">
+        <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST" class="form"  enctype="multipart/form-data">
             <h1>ADD PRODUCT</h1>
             <input type="number" class="add-product-box" name="product_id" placeholder="Product ID">
             <input type="text" class="add-product-box" name="product_name" placeholder="Enter The Product Name">
             <input type="text" class="add-product-box" name="category_id" placeholder="Enter Category id">
-            <input type="text" class="add-product-box" name="product_price" placeholder="Enter product price">
-            <input type="text" class="add-product-box" name="product_description" placeholder="Enter product description">
+            <input type="text" class="add-product-box" name="price" placeholder="Enter product price">
+            <input type="text" class="add-product-box" name="description" placeholder="Enter product description">
 
             <input type="file" name="picture" accept="image/png, image/jpg, image/jpeg" class="add-product-box">
 
