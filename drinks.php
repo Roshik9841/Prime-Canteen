@@ -22,10 +22,12 @@
         $product_detail = $product_row["detail"];
         $product_image = $product_row["image"];
         $selected_item = urlencode($product_id);
+        $product_image = str_replace("../", "", $product_image);
         ?>
       <div class="col-4">
-                    <a href="singleitem.php?var=<?php echo $selected_item ?>"><img src="<?php echo $product_image ?>" alt=""
-                            srcset=""></a>
+                    <a href="singleitem.php?var=<?php echo $selected_item ?>"> <img src="<?php echo $product_image ?>" alt="
+                    <?php echo $product_name ?>">
+                </a>
                     <a href="singleitem.php?var=<?php echo $selected_item ?>">
                         <h4>
                             <?php echo $product_name ?>
