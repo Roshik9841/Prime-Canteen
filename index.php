@@ -79,22 +79,22 @@
                 <div class="meals-description">
                     <img src="images/breakfast.jpg" class="meals-img">
                     <p class="meals-text">Breakfast</p>
-                    <button class="categories-btn">View Details</button>
+                    <a href="breakfast.php" class="categories-btn">View Details</a>
                 </div>
                 <div class="meals-description">
                     <img src="images/nonveg.webp" class="meals-img">
                     <p class="meals-text">Non veg Items</p>
-                    <button class="categories-btn">View Details</button>
+                    <a href="non-veg.php" class="categories-btn">View Details</a>
                 </div>
                 <div class="meals-description">
                     <img src="images/veg.jpg" class="meals-img">
                     <p class="meals-text">Veg Items</p>
-                    <button class="categories-btn">View Details</button>
+                    <a href="veg.php" class="categories-btn">View Details</a>
                 </div> 
                 <div class="meals-description">
                     <img src="images/drinks.jpg" class="meals-img">
                     <p class="meals-text">Drinks</p>
-                    <button class="categories-btn">View Details</button>
+                    <a href="drinks.php" class="categories-btn">View Details</a>
                 </div> 
             </div>
         </div>
