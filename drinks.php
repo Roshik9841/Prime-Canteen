@@ -33,13 +33,7 @@
                             <?php echo $product_name ?>
                         </h4>
                     </a>
-                    <!-- <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                    </div> -->
+                 
                     <p>
                         Rs.<?php echo $product_price ?>
                     </p>
