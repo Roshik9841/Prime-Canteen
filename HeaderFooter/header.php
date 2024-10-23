@@ -34,7 +34,7 @@
             <div>
                 <a class="cart-link header-link" href="cart.php">
                     <img class="cart-icon" src="images/cart-icon (2).png">
-                    <div class="cart-quantity js-cart-quantity">0</div>
+
                     <div class="cart-text">Cart</div>
                 </a>
             </div>
