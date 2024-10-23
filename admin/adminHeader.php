@@ -13,25 +13,35 @@
         }
 
         body {
+            display: flex;
             font-family: Arial, Helvetica, sans-serif;
         }
 
         .navBar {
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 80px;
-            border: 1px solid black;
+            flex-direction: column;
+            background-color: red;
+            height: 725px;
+            padding-top: 50px;
+            padding-left: 30px;
+           text-align: left;
+            width: 300px;
+            border-right: 1px solid black;
         }
 
         .nav {
             display: flex;
+            margin: 20px;
+            padding-bottom: 50px;
+            flex-direction: column;
             list-style: none;
         }
-
+        .nav li{
+            padding-top: 40px;
+        }
         .nav li a {
             text-decoration: none;
-            padding: 20px;
+            
             margin: 10px;
             color: black;
         }
@@ -56,9 +66,10 @@
         }
 
         .user {
-            background-color: transparent;
+            background-color: color-;
             width: 40px;
             height: 40px;
+
             border: none;
             cursor: pointer;
         }
@@ -91,7 +102,8 @@
         }
         .container{
             margin-bottom: 40px;
-
+            margin-right: 400px;
+            
         }
 
     </style>
@@ -105,9 +117,10 @@
             </div>
             <div>
                 <ul class="nav">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="dashboard.php">DashBoard</a></li>
+                    <li><a href="addproduct.php">Add Products</a></li>
+                    <li><a href="viewProduct.php">View Products</a></li>
                     <li><a href="#">Orders</a></li>
-                    <li><a href="addproduct.php">Products</a></li>
                     <li><a href="userview.php">Users</a></li>
                     <li><a href="messages.php">Messages</a></li>
                 </ul>
