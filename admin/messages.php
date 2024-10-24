@@ -9,9 +9,12 @@ include("../dbconnection.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-          .display_message {
-          text-align: center;
+        .display_message {
+            text-align: center;
+          
+            margin-left: -20%;
         }
+
         th {
             border: 1px solid black;
         }
@@ -19,8 +22,6 @@ include("../dbconnection.php");
         /* td {
             border: 1px solid black
         } */
-
-      
     </style>
 </head>
 

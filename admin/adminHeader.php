@@ -13,8 +13,11 @@
         }
 
         body {
-            display: flex;
+
             font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+        
+        /* align-items: flex-start; */
         }
 
         .navBar {
@@ -24,7 +27,7 @@
             height: 725px;
             padding-top: 50px;
             padding-left: 30px;
-           text-align: left;
+            text-align: left;
             width: 300px;
             border-right: 1px solid black;
         }
@@ -36,12 +39,14 @@
             flex-direction: column;
             list-style: none;
         }
-        .nav li{
+
+        .nav li {
             padding-top: 40px;
         }
+
         .nav li a {
             text-decoration: none;
-            
+
             margin: 10px;
             color: black;
         }
@@ -87,7 +92,8 @@
             color: white;
             cursor: pointer;
         }
-        .logout-btn a{
+
+        .logout-btn a {
             text-decoration: none;
             color: white;
         }
@@ -100,12 +106,13 @@
         .email {
             margin: 10px 0;
         }
-        .container{
+
+        .container {
             margin-bottom: 40px;
             margin-right: 400px;
-            
-        }
+         
 
+        }
     </style>
 </head>
 
@@ -132,14 +139,13 @@
         <div class="user-info js-info">
             <p class="username">Username: Roshik Maharjan</p>
             <p class="email">email: roshik9841@gmail.com</p>
-            <button class="logout-btn js-logout"><a href = "../logout.php">LogOut</a></button>
+            <button class="logout-btn js-logout"><a href="../logout.php">LogOut</a></button>
         </div>
     </div>
     <script>
         let userBtn = document.querySelector('.user');
         let info = document.querySelector('.js-info');
-
-        userBtn.addEventListener('click', function () {
+        userBtn.addEventListener('click', function() {
             if (info.style.display === 'none' || info.style.display === '') {
                 info.style.display = 'flex';
             } else {
@@ -149,11 +155,9 @@
 
         let logoutBtn = document.querySelector('.js-logout')
 
-        logoutBtn.addEventListener('.click',function(){
+        logoutBtn.addEventListener('.click', function() {
 
         });
-
-        
     </script>
 </body>
 

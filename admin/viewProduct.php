@@ -1,14 +1,38 @@
 <?php
 include("../dbconnection.php");
+
 if(isset($_GET['delete'])){
     $delete_id = $_GET['delete'];
-    $delete_query = mysqli_query($con, "DELETE FROM new_product WHERE productId =  $delete_id");
-    if( $delete_query){
+    $delete_query = mysqli_query($con, "DELETE FROM new_product WHERE productId = $delete_id");
+    if($delete_query){
         // header('location:viewProduct.php');
         // echo 'Product has been deleted';
     }
 }
+
+if(isset($_POST['update'])){
+    $product_id = $_POST['product_id'];
+    $product_name = $_POST['name'];
+    $product_price = $_POST['price'];
+    $product_picture = $_POST['image'];
+
+    // Update query
+    $update_query = mysqli_query($con, "UPDATE new_product SET name='$product_name', price='$product_price', image='$product_picture' WHERE productId='$product_id'");
+
+    if($update_query){
+        echo "
+        Product updated successfully!";
+        header('location:viewProduct.php');
+    } else {
+        echo "Failed to update product.";
+    }
+}
 ?>
+
+<?php 
+    include('../dbconnection.php');
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +42,9 @@ if(isset($_GET['delete'])){
     <title>Document</title>
 </head>
 <body>
+<?php
+    include('adminHeader.php');
+    ?>
 <section class="display_product" >
     <h2 class="title">All Products</h2>
     <table>
@@ -41,9 +68,10 @@ if(isset($_GET['delete'])){
                 <td><img style="width:50px; height:50px; border-radius:10px" src="<?php echo $product_picture ?>" ></td>
                 <td><?php echo $product_name?></td>
                 <td><?php echo $product_price?></td>
+                <td><a style="text-decoration:none; color:blue" href="editProduct.php?edit=<?php echo  $product_id ?>" class="edit-btn">Edit</a></td>
                 <td>
                     <a style="text-decoration:none; color:red" href="viewProduct.php?delete=<?php echo  $product_id ?>" class="delete-btn" 
-                    onclick="return confirm('Are you sure you want to delete it?');">Delete <i class="fas fa-trash-alt"></i></a>
+                    onclick="return confirm('Are you sure you want to delete it?');">Delete </a>
                 </td>
             </tr>
             <?php
@@ -57,3 +85,4 @@ if(isset($_GET['delete'])){
 </section>
 </body>
 </html>
+
