@@ -27,8 +27,21 @@
                 </ul>
             </div>
             <div>
+                <?php
+                session_start();
+                        if(isset($_SESSION['uname'])){
+                            ?>
+                            <p>Hello <?php echo $_SESSION['uname']?></p>
+                            <?php
+                            echo "<a href='logout.php'>Logout</a>";
+                        }else{
+                               ?>      
                 <button class="login-button"><a href="login.php">Login</a></button>
                 <button class="register-button"><a href="registration.php">Register</a></button>
+                <?php
+                        }
+                ?>
+  
             </div>
 
             <div>

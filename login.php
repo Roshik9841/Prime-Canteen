@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 if ($username === "admin") {
                     $_SESSION['uname'] = $username;
                     $_SESSION['logged_in']=true;
-                    header("Location: adminside1.php");
+                    header("Location: admin/dashboard.php");
                     exit;
                 } else {
                     $_SESSION['logged_in']=true;

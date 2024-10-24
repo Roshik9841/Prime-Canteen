@@ -1,3 +1,38 @@
+ <?php
+    include('dbconnection.php');
+    
+if (isset($_POST['update_btn'])) {
+    $update_value = $_POST['update_quantity'];
+    $update_id = $_POST['update_quantity_id'];
+    $update_quantity_query = mysqli_query($con, "UPDATE cart SET quantity='$update_value' WHERE id='$update_id'");
+    $message = isset($_POST['message']) ? mysqli_real_escape_string($con, $_POST['message']) : '';
+    $update_quantity_query = mysqli_query($con, "UPDATE cart SET quantity='$update_value' WHERE id='$update_id'");
+
+    if (!empty($message)) {
+        $update_message_query = mysqli_query($con, "UPDATE cart SET message='$message' WHERE id='$update_id'");
+    }
+
+    if ($update_quantity_query) {
+        header('location:cart.php');
+    }
+    ;
+}
+;
+
+if (isset($_GET['remove'])) {
+    $remove_id = $_GET['remove'];
+    mysqli_query($con, "DELETE FROM cart WHERE id = '$remove_id'");
+    header('location:cart.php');
+}
+;
+
+if (isset($_GET['delete_all'])) {
+    mysqli_query($con, "DELETE FROM cart");
+    header('location:cart.php');
+}
+
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,6 +170,9 @@
                     <button class="subtract">-</button>
                     <input type="text" value="1">
                     <button class="add">+</button>
+                </div>
+                <div class="div">
+                    <button>update</button>
                 </div>
                 <div class="subtotal">NRS 30</div>
                 <div class="action"><img src="images/delete-icon.png" alt="Delete"></div>
