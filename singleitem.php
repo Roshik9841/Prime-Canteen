@@ -1,3 +1,41 @@
+<?php
+session_start();
+include("dbconnection.php");
+if (isset($_POST['add_to_cart'])) {
+    // Check if the customer is logged in
+    if (!isset($_SESSION['uname'])) {
+        // If not logged in, redirect to login page
+        echo '<script>
+        alert("Please log in to add items to the cart.");
+        window.location.href = "login.php?login=required";
+        </script>';
+        exit; // Stop further execution
+    } else {
+        $product_name = $_POST['product_name'];
+        $product_price = $_POST['product_price'];
+        $product_image = $_POST['product_image'];
+        $product_quantity = 1;
+        $username = $_SESSION['uname'];
+
+        $select_cart = mysqli_query($con, "SELECT * FROM cart WHERE name = '$product_name'");
+        $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
+        $userId_row = mysqli_fetch_assoc($select_userId);
+        $userId = $userId_row['id'];
+        if (mysqli_num_rows($select_cart) > 0) {
+            // Show popup if the item is already in the cart
+            $message = "Item already in cart!";
+            echo '<script>showPopup("' . $message . '");</script>';
+        } else {
+            // Insert the item into the cart and show a success message
+            $message = "Added to cart.";
+            $insert_product = mysqli_query($con, "INSERT INTO cart(id,name, price, image, quantity)
+            VALUES($userId,'$product_name',' $product_price','$product_image','$product_quantity')");
+            echo '<script>showPopup("' . $message . '");</script>';
+        }
+    }
+}
+?>
+   
    <!-- ----------single product details---------- -->
    <!DOCTYPE html>
    <html lang="en">
@@ -98,7 +136,7 @@
                        <!-- Add to Cart button -->
                        <button type="submit" class="cart-btn" name="add_to_cart" style="border:0; width:150px">Add to
                            Cart</button>
-                       <h3>Item Details <i class="fa fa-indent"></i></h3>
+                       <h3>Item Details </h3>
                        <br>
                        <p class="prod-details"><?php echo $product_detail ?></p>
                    </div>
