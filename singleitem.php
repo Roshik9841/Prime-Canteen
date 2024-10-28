@@ -30,7 +30,7 @@ if (isset($_POST['add_to_cart'])) {
             $message = "Added to cart.";
             $insert_product = mysqli_query($con, "INSERT INTO cart(id,name, price, image, quantity)
             VALUES($userId,'$product_name',' $product_price','$product_image','$product_quantity')");
-            echo '<script>showPopup("' . $message . '");</script>';
+
         }
     }
 }
@@ -107,11 +107,11 @@ if (isset($_POST['add_to_cart'])) {
         ?>
 
        <?php
-        include('dbconnection.php');
+
         $selected_item = urldecode($_GET['var']);
 
 
-        $product_query = "SELECT * FROM new_product WHERE productId='$selected_item'";
+        $product_query = "SELECT * FROM new_product WHERE productId='$selected_item'";    
         $product_result = mysqli_query($con, $product_query);
         while ($product_row = mysqli_fetch_array($product_result)) {
             $product_name = $product_row["name"];
@@ -132,7 +132,12 @@ if (isset($_POST['add_to_cart'])) {
                        <h1><?php echo $product_name ?></h1>
                        <h4>Rs.<?php echo $product_price ?></h4>
 
+                        <!-- Hidden inputs for product details -->
+                    <input type="hidden" name="product_name" value="<?php echo $product_name ?>">
+                    <input type="hidden" name="product_price" value="<?php echo $product_price ?>">
+                    <input type="hidden" name="product_image" value="<?php echo $product_image ?>">
 
+                    
                        <!-- Add to Cart button -->
                        <button type="submit" class="cart-btn" name="add_to_cart" style="border:0; width:150px">Add to
                            Cart</button>
