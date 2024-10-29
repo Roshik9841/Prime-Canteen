@@ -5,9 +5,9 @@
         $update_value = $_POST['update_quantity'];
         $update_id = $_POST['update_quantity_id'];
         $update_quantity_query = mysqli_query($con, "UPDATE cart SET quantity='$update_value' WHERE cart_id='$update_id'");
-      
 
-   
+
+
         if ($update_quantity_query) {
             header('location:cart.php');
         };
@@ -34,14 +34,12 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Your Cart</title>
      <style>
-      
          .cart-product img {
              width: 70px;
              height: 70px;
              margin-right: 10px;
              border-radius: 10px;
          }
-
      </style>
  </head>
 
@@ -56,12 +54,12 @@
              <h2>Your Bucket</h2>
              <table class="cart-header">
                  <thead>
-                 <th>Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-                <th>Action</th>
+                     <th>Image</th>
+                     <th>Name</th>
+                     <th>Price</th>
+                     <th>Quantity</th>
+                     <th>Total Price</th>
+                     <th>Action</th>
                  </thead>
                  <?php
                     $grand_total = 0;
@@ -81,45 +79,50 @@
 
                                 $sub_total = floatval($product_price) * intval($product_quantity);
                                 $grand_total += $sub_total; ?>
-                              <tr class="cart-product">
-                                <td><img style="border-radius:10px" src="<?php echo $product_image ?>"></td>
-                                <td><?php echo $product_name ?></td>
-                                <td><?php echo $product_price ?></td>
-                                <td>
-                                    <form action="" method="post" class="form-data">
+                             <tr class="cart-product">
+                                 <td><img style="border-radius:10px" src="<?php echo $product_image ?>"></td>
+                                 <td><?php echo $product_name ?></td>
+                                 <td><?php echo $product_price ?></td>
+                                 <td>
+                                     <form action="" method="post" class="form-data">
 
-                                        <input type="hidden" name="update_quantity_id" value="<?php echo $product_id ?>">
-                                        <input type="number" name="update_quantity" min="1" value="<?php echo $product_quantity ?>">
-                                        <input type="submit" class="btn" value="Update" name="update_btn">
-                                        
-                                        
-                                    </form>
-                                </td>
-                                <td>Rs.<?php echo number_format($sub_total); ?></td>
-                                <td><a href="cart.php?remove=<?php echo $product_id ?>"
-                                        onclick="return confirm('Remove item from cart?')" class="delete-btn">Remove<i
-                                            class="fas fa-trash"></i></a></td>
-                            </tr>
-                            <?php
+                                         <input type="hidden" name="update_quantity_id" value="<?php echo $product_id ?>">
+                                         <input type="number" name="update_quantity" min="1" value="<?php echo $product_quantity ?>">
+                                         <input type="submit" class="btn" value="Update" name="update_btn">
+
+
+                                     </form>
+                                 </td>
+                                 <td>Rs.<?php echo number_format($sub_total); ?></td>
+                                 <td><a href="cart.php?remove=<?php echo $product_id ?>"
+                                         onclick="return confirm('Remove item from cart?')" class="delete-btn">Delete<i
+                                             class="fas fa-trash"></i></a></td>
+                             </tr>
+                 <?php
+                            };
                         }
-                        ;
-                    }
-                }
-                ;
-                ?>
-<!-- 
-
- <div class="total">
-     <span>Total</span>
-     <span>NRS 30</span>
-
-     <button class="checkout">Checkout</button>
- </div> -->
-
- <script>
+                    };
+                    ?>
+             </table>
 
 
- </script>
+             <div class="total">
+                 <table>
+                     <tr>
+                         <td>Total</td>
+                         <td>NRS <?php echo number_format($grand_total);?></td>
+
+                         <td><a href="cart.php?delete_all" onclick="return confirm('Are you sure you want to delete all from cart');">Delete All</a></td>
+                     </tr>
+                 </table>
+             </div>
+         </div>
+         <div class="checkout-btn" style="margin-left:100px">
+             <td><a href="product.php" class="btn">Continue Shopping</a></td> &nbsp;
+             <td><a href="checkout.php" name="submit_btn" class="btn <?= ($grand_total > 1) ? '' : 'disbled'; ?>">Proceed to Checkout</a></td>
+         </div>
+
+
  </body>
 
  </html>
