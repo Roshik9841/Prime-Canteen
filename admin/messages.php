@@ -15,6 +15,7 @@ include("../dbconnection.php");
     <?php
     include('adminHeader.php');
     ?>
+    <section class="display_product">
     <div class="display_message">
         <h2 class="title">Messages</h2>
         <table class="admin-table">
@@ -45,6 +46,8 @@ include("../dbconnection.php");
             </tbody>
         </table>
     </div>
+    </section>
+    
 </body>
 
 </html>

@@ -12,23 +12,24 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body { /* Set height for html and body */
+            height: 100%;
+        }
 
+        body {
             font-family: Arial, Helvetica, sans-serif;
             display: flex;
-        
-        /* align-items: flex-start; */
         }
 
         .navBar {
             display: flex;
             flex-direction: column;
-            background-color: red;
-            height: 725px;
+            background-color: #F3AA29;
             padding-top: 50px;
             padding-left: 30px;
             text-align: left;
             width: 300px;
+            height: 100vh; /* This ensures the navBar fills the full height */
             border-right: 1px solid black;
         }
 
@@ -46,9 +47,8 @@
 
         .nav li a {
             text-decoration: none;
-
-            margin: 10px;
             color: black;
+            margin: 10px;
         }
 
         .nav li a:hover {
@@ -71,10 +71,8 @@
         }
 
         .user {
-            background-color: color-;
             width: 40px;
             height: 40px;
-
             border: none;
             cursor: pointer;
         }
@@ -108,10 +106,9 @@
         }
 
         .container {
-            margin-bottom: 40px;
-            margin-right: 400px;
-         
-
+            display: flex; 
+            flex: 1; 
+            /* margin-right: 400px;  */
         }
     </style>
 </head>
@@ -133,30 +130,26 @@
                 </ul>
             </div>
             <div class="user-btn">
-                <button class="user"><img src="images/user.jpg" class="user-img"></button>
+                <button class="user"><img src="images/user.jpg" class="user-img" alt="User Image"></button>
             </div>
         </div>
         <div class="user-info js-info">
             <p class="username">Username: Roshik Maharjan</p>
-            <p class="email">email: roshik9841@gmail.com</p>
+            <p class="email">Email: roshik9841@gmail.com</p>
             <button class="logout-btn js-logout"><a href="../logout.php">LogOut</a></button>
         </div>
     </div>
     <script>
         let userBtn = document.querySelector('.user');
         let info = document.querySelector('.js-info');
+
         userBtn.addEventListener('click', function() {
-            if (info.style.display === 'none' || info.style.display === '') {
-                info.style.display = 'flex';
-            } else {
-                info.style.display = 'none';
-            }
+            info.style.display = (info.style.display === 'none' || info.style.display === '') ? 'flex' : 'none';
         });
 
-        let logoutBtn = document.querySelector('.js-logout')
-
-        logoutBtn.addEventListener('.click', function() {
-
+        let logoutBtn = document.querySelector('.js-logout');
+        logoutBtn.addEventListener('click', function() {
+            // Add any additional logout functionality here if needed
         });
     </script>
 </body>

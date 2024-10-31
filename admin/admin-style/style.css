@@ -7,22 +7,29 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 20px;
-    width: 100%;
+    width: 100%; /* Ensures full width */
     border-collapse: collapse;
- 
+    margin: 20px 0; /* Adjust margins as needed */
 }
 
-.admin-table th{
+.admin-table th {
     padding: 10px 20px;
     border: 1px solid #ddd;
     text-align: left;
 }
-.admin-table td{
+
+.admin-table td {
     padding: 10px 20px;
-    
     text-align: left;
 }
 
 body {
     background-color: #f9f9ff;
+    display: flex; /* Added to make the body a flex container */
+    justify-content: center; /* Centers content horizontally */
+}
+
+.display_product {
+    width: 60%; 
+    margin-right: 140px;
 }
