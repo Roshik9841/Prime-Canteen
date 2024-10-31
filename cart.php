@@ -162,8 +162,8 @@
                     $grand_total = 0;
                     if (isset($_SESSION['uname'])) {
                         $username = $_SESSION['uname'];
-                        $select_userId = mysqli_query($con, "SELECT id from userinfo WHERE Username = '$username'");
-                        $userId_row = mysqli_fetch_assoc($select_userId);
+                        $select_userId = mysqli_query($con, "SELECT id from userinfo WHERE Username = '$username'");    //userinfo bata id liyo yedi username session snga milyo bhane
+                        $userId_row = mysqli_fetch_assoc($select_userId);   //tyo id ko data liyo
                         $userId = $userId_row['id'];
                         $select_cart = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
                         if (mysqli_num_rows($select_cart) > 0) {
