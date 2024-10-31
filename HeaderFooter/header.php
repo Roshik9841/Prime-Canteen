@@ -15,7 +15,7 @@
         <div class="navBar">
             <div>
 
-                <img src="images/primeLogo.png" class="primeLogo" onclick="index.php">
+                <img src="images/primeLogo.png" class="primeLogo"  onclick="window.location.href='index.php'">
 
             </div>
             <div>

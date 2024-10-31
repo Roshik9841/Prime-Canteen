@@ -15,26 +15,26 @@
 
             <div class="box">
                 <h3>quick links</h3>
-                <a href="home.php">home</a>
+                <a href="index.php">home</a>
                 <a href="about.php">about</a>
                 <a href="contact.php">contact</a>
-                <a href="shop.php">shop</a>
+                <a href="product.php">shop</a>
             </div>
 
             <div class="box">
                 <h3>Opening time</h3>
                 <a href="#">Monday-Friday</a>
-                <a href="#p">06:00 am to 06:00 pm</a>
+                <a href="#">06:00 am to 06:00 pm</a>
                 <a href="#">Saturday-sunday</a>
                 <a href="#">09:00 am to 05:00 pm</a>
             </div>
 
             <div class="box">
                 <h3>contact info</h3>
-                <p> <i class="fas fa-phone"></i>9843225292 </p>
-                <p> <i class="fas fa-phone"></i> 9841179310 </p>
-                <p> <i class="fas fa-envelope"></i> Roshik9841@gmail.com </p>
-                <p> <i class="fas fa-map-marker-alt"></i>Mhepi,Kathmandu </p>
+                <p> 9843225292 </p>
+                <p> 9841179310 </p>
+                <p> Roshik9841@gmail.com </p>
+                <p> Mhepi,Kathmandu </p>
             </div>
 
             <div class="box">

@@ -40,6 +40,103 @@
              margin-right: 10px;
              border-radius: 10px;
          }
+
+         .cart-header {
+             margin: 60px 0px 30px 150px;
+             background-color: #FFFFFF;
+             text-align: center;
+             padding: 40px 50px 60px 0px;
+             border-radius: 20px;
+         }
+
+         .cart-header th {
+             font-size: 20px;
+             padding-bottom: 30px;
+             color: grey;
+
+             padding-left: 50px;
+             justify-content: center;
+         }
+
+         .cart-product td {
+             padding-bottom: 20px;
+             font-weight: 600;
+             font-size: 15px;
+             padding-left: 60px;
+
+         }
+
+         .styled-input {
+             width: 60%;
+             padding: 10px;
+             font-size: 16px;
+             border: 2px solid #4A90E2;
+             border-radius: 8px;
+             outline: none;
+             transition: border-color 0.3s ease, box-shadow 0.3s ease;
+         }
+
+         .styled-input:hover {
+             border-color: #357ABD;
+       
+         }
+
+         .styled-input:focus {
+             border-color: #357ABD;
+             box-shadow: 0 0 8px rgba(53, 122, 189, 0.3);
+           
+         }
+
+         .btn {
+             background-color: #EBC874;
+             color: white;
+             padding: 10px 20px;
+             font-size: 16px;
+             border: none;
+             border-radius: 5px;
+             cursor: pointer;
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+             transition: background-color 0.3s ease, transform 0.2s ease;
+            
+         }
+
+         .btn:hover {
+             background-color: #ddbd73;
+             transform: scale(1.05);
+         
+         }
+         .delete-btn img{
+            width: 30px;
+            height: 30px;
+        
+         }
+         .total{
+            display: flex;
+    justify-content: space-around;
+    margin-top: 20px; /* Add space above the total section */
+    padding: 20px;
+    background-color: #f9f9f9; /* Optional: add background color */
+    border-radius: 10px;
+         }
+         .total td{
+            padding-left: 60px;
+            font-weight: bold;
+        
+         }
+         .btn-1{
+            position: relative;
+            bottom: 5px;
+            left: 50px;
+         }
+         .cart-container{
+            margin-bottom: 40px;
+         }
+         .cart h2{
+            
+            position: absolute;
+            top: 13%;
+            left: 10%;
+         }
      </style>
  </head>
 
@@ -82,21 +179,20 @@
                              <tr class="cart-product">
                                  <td><img style="border-radius:10px" src="<?php echo $product_image ?>"></td>
                                  <td><?php echo $product_name ?></td>
-                                 <td><?php echo $product_price ?></td>
+                                 <td>NRS <?php echo $product_price ?></td>
                                  <td>
                                      <form action="" method="post" class="form-data">
 
                                          <input type="hidden" name="update_quantity_id" value="<?php echo $product_id ?>">
-                                         <input type="number" name="update_quantity" min="1" value="<?php echo $product_quantity ?>">
+                                         <input type="number" class="styled-input" name="update_quantity" min="1" value="<?php echo $product_quantity ?>">
                                          <input type="submit" class="btn" value="Update" name="update_btn">
 
 
                                      </form>
                                  </td>
-                                 <td>Rs.<?php echo number_format($sub_total); ?></td>
+                                 <td>NRS <?php echo number_format($sub_total); ?></td>
                                  <td><a href="cart.php?remove=<?php echo $product_id ?>"
-                                         onclick="return confirm('Remove item from cart?')" class="delete-btn">Delete<i
-                                             class="fas fa-trash"></i></a></td>
+                                         onclick="return confirm('Remove item from cart?')" class="delete-btn"><img src="images/delete-icon.png"></a></td>
                              </tr>
                  <?php
                             };
@@ -110,7 +206,7 @@
                  <table>
                      <tr>
                          <td>Total</td>
-                         <td>NRS <?php echo number_format($grand_total);?></td>
+                         <td>NRS <?php echo number_format($grand_total); ?></td>
 
                          <td><a href="cart.php?delete_all" onclick="return confirm('Are you sure you want to delete all from cart');">Delete All</a></td>
                      </tr>
@@ -118,11 +214,14 @@
              </div>
          </div>
          <div class="checkout-btn" style="margin-left:100px">
-             <td><a href="product.php" class="btn">Continue Shopping</a></td> &nbsp;
-             <td><a href="checkout.php" name="submit_btn" class="btn <?= ($grand_total > 1) ? '' : 'disbled'; ?>">Proceed to Checkout</a></td>
+             <td><a href="product.php" class="btn btn-1">Continue Shopping</a></td> &nbsp;
+             <td><a href="checkout.php" name="submit_btn" class=" btn btn-1 <?= ($grand_total > 1) ? '' : 'disbled'; ?>">Proceed to Checkout</a></td>
+         </div>
          </div>
 
-
+        <?php
+            include("HeaderFooter/footer.php");
+        ?>
  </body>
 
  </html>
