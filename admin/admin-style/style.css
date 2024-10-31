@@ -1,0 +1,28 @@
+.display_message {
+    text-align: center;
+}
+
+.admin-table {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: 100%;
+    border-collapse: collapse;
+ 
+}
+
+.admin-table th{
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.admin-table td{
+    padding: 10px 20px;
+    
+    text-align: left;
+}
+
+body {
+    background-color: #f9f9ff;
+}

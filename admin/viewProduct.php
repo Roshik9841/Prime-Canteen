@@ -41,6 +41,7 @@ include('../dbconnection.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="admin-style/style.css" type="text/css">
 </head>
 
 <body>
@@ -49,12 +50,13 @@ include('../dbconnection.php');
     ?>
     <section class="display_product">
         <h2 class="title">All Products</h2>
-        <table>
+        <table class="admin-table">
             <thead>
                 <th>Product Image</th>
                 <th>Product Name</th>
                 <th>Product Price</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
+            
             </thead>
             <tbody>
                 <?php

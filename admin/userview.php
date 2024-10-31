@@ -8,16 +8,7 @@ include("../dbconnection.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-           th {
-            border: 1px solid black;
-        }
-
-        td {
-            border: 1px solid black
-        }
-
-    </style>
+    <link rel="stylesheet" href="admin-style/style.css" type="text/css">
 </head>
 <body>
 <?php
@@ -25,7 +16,7 @@ include("../dbconnection.php");
     ?>
 <section class="display_product">
     <h2 class="title">User Info</h2>
-    <table>
+    <table class="admin-table">
         <thead>
             <th>Id</th>
             <th>User Name</th>
