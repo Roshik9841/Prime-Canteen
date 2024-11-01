@@ -54,53 +54,14 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .add-product-form {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .form {
-
-            border: 2px solid black;
-            border-radius: 2%;
-            padding: 30px;
-            width: 400px;
-            background-color: white;
-
-
-        }
-
-        .add-product-box {
-            display: block;
-            border-radius: 13px;
-            padding: 20px 15px;
-            width: 100%;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .add-product-btn {
-            background-color: transparent;
-            padding: 20px 12px;
-            width: 200px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-    </style>
+    <link rel="stylesheet" href="admin-style/style.css" type="text/css">
 </head>
 
 <body>
     <?php
     include('adminHeader.php');
     ?>
+    <section class="display_product">
     <div class="add-product-form">
         <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST" class="form"  enctype="multipart/form-data">
             <h1>ADD PRODUCT</h1>
@@ -117,7 +78,7 @@ if (isset($_POST['submit'])) {
 
 
     </div>
-
+    </section>
 </body>
 
 </html>

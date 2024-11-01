@@ -43,7 +43,7 @@ include("dbconnection.php");
             }
         }
         $total_product = implode(', ', $product_name);
-        $detail_query = mysqli_query($con, "INSERT INTO `order` 
+        $detail_query = mysqli_query($con, "INSERT INTO `orders` 
     (name,number,email,flat,street,city,pin_code,total_products,total_price,orderId)
     VALUES('$name','$number','$email','$flat','$street','$city','$pin_code','$total_product','$price_total',$userId)") or die('query failed');
 
@@ -82,7 +82,7 @@ if (isset($_POST['cash_btn'])) {
             }
         }
         $total_product = implode(', ', $product_name);
-        $detail_query = mysqli_query($con, "INSERT INTO `order` 
+        $detail_query = mysqli_query($con, "INSERT INTO `orders` 
     (name,number,email,flat,street,city,pin_code,total_products,total_price,orderId)
     VALUES('$name','$number','$email','$flat','$street','$city','$pin_code','$total_product','$price_total',$userId)") or die('query failed');
 

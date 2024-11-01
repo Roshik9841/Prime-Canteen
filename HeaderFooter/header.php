@@ -59,12 +59,14 @@
                 ?>
                     <a class="cart-link header-link" href="cart.php">
                         <img class="cart-icon" src="images/cart-icon (2).png">
+                        <p style="font-size:16px; color:black; position: absolute; top:30%; right:33%; color:#F2AD2F"><?php echo $row_count; ?></p>
                         <div class="cart-text">Cart</div>
                     <?php
                 } else {
                     ?>
                       <a class="cart-link header-link" href="cart.php">
                       <img class="cart-icon" src="images/cart-icon (2).png">
+
                     <div class="cart-text">Cart</div>
                     <?php
                 }

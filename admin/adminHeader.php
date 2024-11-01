@@ -1,3 +1,6 @@
+<?php
+include("../dbconnection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,8 +65,8 @@
             font-size: 16px;
             font-family: sans-serif;
             position: absolute;
-            top: 100px;
-            right: 20px;
+            top: 70%;
+            left: 2%;
             display: none;
             flex-direction: column;
             justify-content: center;
@@ -73,6 +76,8 @@
         .user {
             width: 40px;
             height: 40px;
+            position: absolute;
+            bottom: 30%;
             border: none;
             cursor: pointer;
         }
@@ -124,20 +129,24 @@
                     <li><a href="dashboard.php">DashBoard</a></li>
                     <li><a href="addproduct.php">Add Products</a></li>
                     <li><a href="viewProduct.php">View Products</a></li>
-                    <li><a href="#">Orders</a></li>
+                    <li><a href="order.php">Orders</a></li>
                     <li><a href="userview.php">Users</a></li>
                     <li><a href="messages.php">Messages</a></li>
                 </ul>
             </div>
             <div class="user-btn">
-                <button class="user"><img src="images/user.jpg" class="user-img" alt="User Image"></button>
+                <button class="user"><img src="images/user.png" class="user-img" alt="User Image"></button>
             </div>
         </div>
         <div class="user-info js-info">
-            <p class="username">Username: Roshik Maharjan</p>
-            <p class="email">Email: roshik9841@gmail.com</p>
+            <?php
+                session_start();
+            ?>
+            <p class="username">Username: <?php echo $_SESSION['uname']?></p>
+            <p class="email">Email: <?php echo  isset($_SESSION['email']) ? $_SESSION['email'] : 'Email not available'; ?></p>
             <button class="logout-btn js-logout"><a href="../logout.php">LogOut</a></button>
         </div>
+        
     </div>
     <script>
         let userBtn = document.querySelector('.user');
@@ -147,10 +156,7 @@
             info.style.display = (info.style.display === 'none' || info.style.display === '') ? 'flex' : 'none';
         });
 
-        let logoutBtn = document.querySelector('.js-logout');
-        logoutBtn.addEventListener('click', function() {
-            // Add any additional logout functionality here if needed
-        });
+      
     </script>
 </body>
 

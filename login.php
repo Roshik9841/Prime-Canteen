@@ -1,59 +1,73 @@
 <?php
-session_start();
+session_start(); 
 
+// Check if there's an error message in the session and show it
 if (isset($_SESSION['error_message'])) {
-    echo '<script type="text/javascript">alert("' . $_SESSION['error_message'] . '");</script>';
-    unset($_SESSION['error_message']); // Clear the message
+    echo '<script>alert("' . $_SESSION['error_message'] . '");</script>';
+    unset($_SESSION['error_message']); 
 }
+
 
 $con = mysqli_connect("localhost", "root", "", "canteen");
 
-// Check connection
 if (!$con) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// Check if the form was submitted (when the user clicks login)
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    
     $username = $_POST['uname'];
-    $pw = $_POST['password'];
+    $password = $_POST['password'];
 
-    // Ensure fields are not empty
-    if (!empty($username) && !empty($pw)) {
+    // Check if the username and password fields are not empty
+    if (!empty($username) && !empty($password)) {
+        // userinfo bata same username bhako xa ki xaina herna
         $query = "SELECT * FROM userinfo WHERE Username = '$username' LIMIT 1";
         $result = mysqli_query($con, $query);
 
-        if ($result && $result->num_rows == 1) {
-            $user_data = $result->fetch_assoc();
-            // Verify password
-            if (password_verify($pw, $user_data['Password'])) {
-                if ($username === "admin") {
-                    $_SESSION['uname'] = $username;
-                    $_SESSION['logged_in']=true;
-                    header("Location: admin/dashboard.php");
-                    exit;
-                } else {
-                    $_SESSION['logged_in']=true;
-                    $_SESSION['uname'] = $username;
-                    header("Location: index.php");
-                    exit;
-                }
-            }
-        }
+        // yedi xa bhaye 
+        if ($result && mysqli_num_rows($result) == 1) {
+            $user_data = mysqli_fetch_assoc($result); // Get user data from the database
 
-        // Set the error message if login fails
-        $_SESSION['error_message'] = "Wrong username or password";
-        header("Location: login.php");
-        exit;
+            // Check if the entered password matches the password in the database
+            if (password_verify($password, $user_data['Password'])) {
+                // Set session variables for the logged-in user
+                $_SESSION['uname'] = $user_data['Username'];
+                $_SESSION['logged_in'] = true;
+                $_SESSION['email'] = $user_data['Email'];
+
+                // yedi username admin ho bhaye admin page ma janxa
+                if ($username === "Admin") {
+                    header("Location: admin/messages.php"); 
+                } else {
+                    header("Location: index.php");
+                }
+                exit; 
+            } else {
+                // If password is incorrect, set an error message
+                $_SESSION['error_message'] = "Incorrect password";
+                header("Location: login.php"); 
+                exit;
+            }
+        } else {
+            // yedi user xaina bhaye
+            $_SESSION['error_message'] = "Username not found";
+            header("Location: login.php"); 
+            exit;
+        }
     } else {
-        // Set the error message if fields are empty
-        $_SESSION['error_message'] = "Username or password cannot be empty";
-        header("Location: login.php");
+        // yedi empty xa bhaye
+        $_SESSION['error_message'] = "Please fill in both fields";
+        header("Location: login.php"); 
         exit;
     }
 }
 
+
 mysqli_close($con);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,6 +83,7 @@ mysqli_close($con);
             <p class="form-register">LOGIN NOW</p>
             <div>
                 <input type="text" placeholder="Enter your Username" class="form-table" name="uname" required>
+                <input type="hidden" name="email">
                 <input type="password" placeholder="Enter your password" class="form-table" name="password" required>
             </div>
             <div class="center">
@@ -79,3 +94,6 @@ mysqli_close($con);
     </div>
 </body>
 </html>
+
+
+
