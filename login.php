@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 // yedi username admin ho bhaye admin page ma janxa
                 if ($username === "Admin") {
-                    header("Location: admin/messages.php"); 
+                    header("Location: admin/dashboard.php"); 
                 } else {
                     header("Location: index.php");
                 }

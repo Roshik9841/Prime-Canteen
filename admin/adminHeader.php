@@ -1,5 +1,7 @@
 <?php
 include("../dbconnection.php");
+?><?php
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +29,7 @@ include("../dbconnection.php");
         .navBar {
             display: flex;
             flex-direction: column;
-            background-color: #F3AA29;
+            background-color: #E5CB6A;
             padding-top: 50px;
             padding-left: 30px;
             text-align: left;
@@ -139,9 +141,7 @@ include("../dbconnection.php");
             </div>
         </div>
         <div class="user-info js-info">
-            <?php
-                session_start();
-            ?>
+            
             <p class="username">Username: <?php echo $_SESSION['uname']?></p>
             <p class="email">Email: <?php echo  isset($_SESSION['email']) ? $_SESSION['email'] : 'Email not available'; ?></p>
             <button class="logout-btn js-logout"><a href="../logout.php">LogOut</a></button>
