@@ -1,3 +1,5 @@
+
+
 <?php
 include("dbconnection.php");
 
@@ -10,12 +12,99 @@ include("dbconnection.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    <link rel="stylesheet" href="style.css">
+  
+    <style>
+
     
+    .contain {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        border-radius: 8px;
+    }
+
+    .heading {
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .checkout-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        width: 90%;
+ 
+    }
+
+    .display-order {
+        width: 90%;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #555;
+    }
+
+    .grand-total {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .inputbo {
+        flex: 1 1 45%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .inputbo span {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .inputbo input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .btn {
+        background-color:#E3CD67 ;
+        color: #fff;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 200px;
+        text-align: center;
+    }
+
+    .btn:hover {
+        background-color:#F4AE35 ;
+    }
+
+    </style>
+
 </head>
 
 <body>
-<?php
+    <?php
     include("HeaderFooter/header.php");
     ?>
     <?php
@@ -28,7 +117,7 @@ include("dbconnection.php");
         $street = $_POST['street'];
         $city = $_POST['city'];
         $pin_code = $_POST['pin_code'];
-        
+
         $username = $_SESSION['uname'];
         $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
         $userId_row = mysqli_fetch_assoc($select_userId);
@@ -48,18 +137,18 @@ include("dbconnection.php");
     VALUES('$name','$number','$email','$flat','$street','$city','$pin_code','$total_product','$price_total',$userId)") or die('query failed');
 
 
-         $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
-         if ($cart_query && $detail_query) {
-             // Redirect to a new page to display order message
-             header("Location: pay_now.php?name=$name&number=$number&email=$email&flat=$flat&street=$street&city=$city&pin_code=$pin_code&total_product=$total_product&price_total=$price_total");
-             exit();
+        $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
+        if ($cart_query && $detail_query) {
+            // Redirect to a new page to display order message
+            header("Location: pay_now.php?name=$name&number=$number&email=$email&flat=$flat&street=$street&city=$city&pin_code=$pin_code&total_product=$total_product&price_total=$price_total");
+            exit();
         }
     }
     ?>
 
-<?php    
+    <?php
 
-if (isset($_POST['cash_btn'])) {
+    if (isset($_POST['cash_btn'])) {
         $name = $_POST['name'];
         $number = $_POST['number'];
         $email = $_POST['email'];
@@ -67,7 +156,7 @@ if (isset($_POST['cash_btn'])) {
         $street = $_POST['street'];
         $city = $_POST['city'];
         $pin_code = $_POST['pin_code'];
-        
+
         $username = $_SESSION['uname'];
         $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
         $userId_row = mysqli_fetch_assoc($select_userId);
@@ -86,89 +175,25 @@ if (isset($_POST['cash_btn'])) {
     (name,number,email,flat,street,city,pin_code,total_products,total_price,orderId)
     VALUES('$name','$number','$email','$flat','$street','$city','$pin_code','$total_product','$price_total',$userId)") or die('query failed');
 
-     $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
+        $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
 
-     if ($cart_query && $detail_query) {
-        // Redirect to a new page to display order message
-        header("Location:final_order.php?name=$name&number=$number&email=$email&flat=$flat&street=$street&city=$city&pin_code=$pin_code&total_product=$total_product&price_total=$price_total");
-        exit();
-   }
-
+        if ($cart_query && $detail_query) {
+            // Redirect to a new page to display order message
+            header("Location:final_order.php?name=$name&number=$number&email=$email&flat=$flat&street=$street&city=$city&pin_code=$pin_code&total_product=$total_product&price_total=$price_total");
+            exit();
+        }
     }
 
-    
-?>
 
-<?php
-//Import PHPMailer classes into the global namespace
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-if (isset($_POST['order_btn']) || isset($_POST['cash_btn'])) {
-    
-require './source/src/Exception.php';
-require './source/src/PHPMailer.php';
-require './source/src/SMTP.php';
-
-$mail = new PHPMailer(true);
-$mail->isSMTP();
-$mail->SMTPAuth = true;
-//to view proper logging details for success and error messages
-// $mail->SMTPDebug = 1;
-
-$user_email = $_POST['email'];
-echo "<alert>$user_email</alert>";
-$mail->Host = 'smtp.gmail.com';  //gmail SMTP server
-$mail->Username = 'ritikamaharjan645@gmail.com';   //email
-$mail->Password = 'rpvo uzor ywiv zdkl';   //16 character obtained from app password created
-$mail->Port = 465;                    //SMTP port
-$mail->SMTPSecure = "ssl";
+    ?>
 
 
-//sender information
-$mail->setFrom('ritikamaharjan645@gmail.com', 'ritika');
-
-//receiver address and name
-$mail->addAddress($user_email, 'Recipientname');
-echo 'Email gayooooooooooooooooooooooooooooooo';
-
-
-// Add cc or bcc   
-// $mail->addCC('email@mail.com');  
-// $mail->addBCC('user@mail.com');  
-
-// $mail->addAttachment(__DIR__ . '/download.png');
-// $mail->addAttachment(__DIR__ . '/exampleattachment2.jpg');
-
-
-$mail->isHTML(true);
-
-$mail->Subject = 'Order Confirmation';
-
-    // Construct email body with order details
-    $mail->Body = "<h3>Order Details:</h3>
-                   <p><strong>Name:</strong> $name</p>
-                   <p><strong>Contact Number:</strong> $number</p>
-                   <p><strong>Address:</strong><br>$flat, $street, $city</p>
-                   <p><strong>Ordered Items:</strong><br>$total_product</p>";
-
-// Send mail   
-if (!$mail->send()) {
-    echo 'Email not sent an error was encountered: ' . $mail->ErrorInfo;
-} else {
-    echo 'Message has been sent.';
-}
-
-$mail->smtpClose();
-}
-?>
     <div class="contain">
         <section class="form">
             <h1 class="heading">Complete your order</h1>
 
 
-            <form  method="post" onsubmit="return validate()">
+            <form method="post" onsubmit="return validate()" class="checkout-form">
                 <div class="display-order">
                     <?php
                     $username = $_SESSION['uname'];
@@ -182,11 +207,10 @@ $mail->smtpClose();
                         while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                             $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
                             $grand_total = $total += $total_price;
-                            ?>
+                    ?>
                             <span><?= $fetch_cart['name']; ?>(<?= $fetch_cart['quantity']; ?>)</span>
-                            <?php
-                        }
-                        ;
+                    <?php
+                        };
                     } else {
                         echo "<div class='display-order'><span>Your cart is empty!</span></div>";
                     }
@@ -226,9 +250,9 @@ $mail->smtpClose();
                         <input type="text" placeholder="e.g. 12345" name="pin_code" required>
                     </div>
                 </div>
-                <input type="submit" value="Pay with Khalti" name="order_btn" class="btn" >
+                <input type="submit" value="Pay with Khalti" name="order_btn" class="btn">
                 <input type="submit" value="Order Now" name="cash_btn" class="btn">
-                </form>
+            </form>
         </section>
     </div>
 
@@ -259,10 +283,11 @@ $mail->smtpClose();
             }
         }
     </script>
+    <?php
+    
+        include("HeaderFooter/footer.php");
+    ?>
 
-   
 </body>
 
 </html>
-
-
