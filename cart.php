@@ -214,7 +214,7 @@
              </div>
          </div>
          <div class="checkout-btn" style="margin-left:100px">
-             <td><a href="product.php" class="btn btn-1">Continue Shopping</a></td> &nbsp;
+             <td><a href="product.php" class="btn btn-1">Continue Food hunt</a></td> &nbsp;
              <td><a href="checkout.php" name="submit_btn" class=" btn btn-1 <?= ($grand_total > 1) ? '' : 'disbled'; ?>">Proceed to Checkout</a></td>
          </div>
          </div>

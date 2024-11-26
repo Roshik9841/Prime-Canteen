@@ -10,6 +10,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://kit.fontawesome.com/494f2e7fea.js" crossorigin="anonymous"></script>
     <style>
         * {
             margin: 0;
@@ -68,7 +69,7 @@ session_start();
             font-family: sans-serif;
             position: absolute;
             top: 70%;
-            left: 2%;
+            left: 10%;
             display: none;
             flex-direction: column;
             justify-content: center;
@@ -76,18 +77,19 @@ session_start();
         }
 
         .user {
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             position: absolute;
-            bottom: 30%;
+            bottom: 15%;
             border: none;
+            background-color: transparent;
             cursor: pointer;
         }
-
-        .user-img {
-            width: 100%;
-            height: 100%;
+        .user img{
+            width: 50px;
+            height: 50px;
         }
+        
 
         .logout-btn {
             background-color: #C0392B;
@@ -132,12 +134,13 @@ session_start();
                     <li><a href="addproduct.php">Add Products</a></li>
                     <li><a href="viewProduct.php">View Products</a></li>
                     <li><a href="order.php">Orders</a></li>
+                    <li><a href="dailystats.php">Order Status</a></li>
                     <li><a href="userview.php">Users</a></li>
                     <li><a href="messages.php">Messages</a></li>
                 </ul>
             </div>
             <div class="user-btn">
-                <button class="user"><img src="images/user.png" class="user-img" alt="User Image"></button>
+                <button class="user"><img src="images/user.png"></button>
             </div>
         </div>
         <div class="user-info js-info">

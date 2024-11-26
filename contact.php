@@ -63,11 +63,11 @@ if(isset($_POST['submit'])){
                 <p class="contact-form-text">Connect with Us</p>
                 <p>
                     <label for="name">Name(Required)*</label><br>
-                    <input type="text" name="name" class="contact-input" required><br>
+                    <input type="text" name="name" class="contact-input" value="<?php echo $_SESSION['uname']?>" required><br>
                 </p>
                 <p>
                     <label for="email">Email(Required)*</label><br>
-                    <input type="email" name="email" class="contact-input" required><br>
+                    <input type="email" name="email" class="contact-input" value="<?php echo $_SESSION['email']?>" required><br>
                 </p>
                 <p>
                     <label for="comments">Message(Required)*</label><br>

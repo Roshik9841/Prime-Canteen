@@ -62,7 +62,7 @@
 
         <h3 class="dash">DashBoard</h3>
         <div class="value">
-            <a style="text-decoration:none;" href="viewProduct1.php">
+            <a style="text-decoration:none;" href="viewProduct.php">
                 <div class="value-box">
                     <i class="fa-solid fa-list"></i>
                     <div>
@@ -98,7 +98,7 @@
                 </div>
             </a>
 
-            <a style="text-decoration:none;" href="orderview.php">
+            <a style="text-decoration:none;" href="order.php">
                 <div class="value-box">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <div>
@@ -118,11 +118,7 @@
         </div>
     </section>
 
-    <script>
-        $('#menu-btn').click(function() {
-            $('#menu').toggleClass("active");
-        })
-    </script>
+    
 </body>
 
 </html>

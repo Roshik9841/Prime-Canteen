@@ -1,7 +1,6 @@
-
-
 <?php
 include("dbconnection.php");
+session_start(); // Ensure session is started for `$_SESSION['uname']`
 
 ?>
 <!DOCTYPE html>
@@ -10,12 +9,8 @@ include("dbconnection.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-  
     <style>
-
-    
     .contain {
         max-width: 1200px;
         margin: 20px auto;
@@ -34,12 +29,10 @@ include("dbconnection.php");
 
     .checkout-form {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; 
         gap: 20px;
         padding: 20px;
         width: 90%;
- 
     }
 
     .display-order {
@@ -84,7 +77,7 @@ include("dbconnection.php");
     }
 
     .btn {
-        background-color:#E3CD67 ;
+        background-color: #E3CD67;
         color: #fff;
         border: none;
         padding: 12px 20px;
@@ -96,103 +89,82 @@ include("dbconnection.php");
     }
 
     .btn:hover {
-        background-color:#F4AE35 ;
+        background-color: #F4AE35;
     }
-
     </style>
-
 </head>
 
 <body>
-    <?php
-    include("HeaderFooter/header.php");
-    ?>
-    <?php
+    <?php include("HeaderFooter/header.php"); ?>
 
-    if (isset($_POST['order_btn'])) {
+    <?php
+    if (isset($_POST['order_btn']) || isset($_POST['cash_btn'])) {
         $name = $_POST['name'];
         $number = $_POST['number'];
         $email = $_POST['email'];
-        $flat = $_POST['flat'];
-        $street = $_POST['street'];
-        $city = $_POST['city'];
-        $pin_code = $_POST['pin_code'];
-
         $username = $_SESSION['uname'];
+
+        // Get user ID
         $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
         $userId_row = mysqli_fetch_assoc($select_userId);
         $userId = $userId_row['id'];
-        $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
+
+        // Fetch cart items
+        $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id = $userId");
         $price_total = 0;
+        $product_names = [];
+
         if (mysqli_num_rows($cart_query) > 0) {
             while ($product_item = mysqli_fetch_assoc($cart_query)) {
-                $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
+                $product_names[] = $product_item['name'] . ' (' . $product_item['quantity'] . ')';
                 $product_price = $product_item['price'] * $product_item['quantity'];
                 $price_total += $product_price;
             }
-        }
-        $total_product = implode(', ', $product_name);
-        $detail_query = mysqli_query($con, "INSERT INTO `orders` 
-    (name,number,email,flat,street,city,pin_code,total_products,total_price,orderId)
-    VALUES('$name','$number','$email','$flat','$street','$city','$pin_code','$total_product','$price_total',$userId)") or die('query failed');
-
-
-        $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
-        if ($cart_query && $detail_query) {
-            // Redirect to a new page to display order message
-            header("Location: pay_now.php?name=$name&number=$number&email=$email&flat=$flat&street=$street&city=$city&pin_code=$pin_code&total_product=$total_product&price_total=$price_total");
+        } else {
+            echo "<script>alert('Your cart is empty!'); window.location.href='cart.php';</script>";
             exit();
         }
-    }
-    ?>
 
-    <?php
+        $total_product = implode(', ', $product_names);
 
-    if (isset($_POST['cash_btn'])) {
-        $name = $_POST['name'];
-        $number = $_POST['number'];
-        $email = $_POST['email'];
-        $flat = $_POST['flat'];
-        $street = $_POST['street'];
-        $city = $_POST['city'];
-        $pin_code = $_POST['pin_code'];
+        // Insert into `orders` table
+        $insert_order = mysqli_query($con, "INSERT INTO `orders` 
+            (name, number, email, total_products, total_price, orderId, created_at) 
+            VALUES('$name', '$number', '$email', '$total_product', '$price_total', $userId, NOW())");
 
-        $username = $_SESSION['uname'];
-        $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
-        $userId_row = mysqli_fetch_assoc($select_userId);
-        $userId = $userId_row['id'];
-        $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
-        $price_total = 0;
-        if (mysqli_num_rows($cart_query) > 0) {
+        if ($insert_order) {
+            $order_id = mysqli_insert_id($con); // Get the ID of the newly created order
+
+            // Insert into `order_items` table
+            mysqli_data_seek($cart_query, 0); // Reset cart query pointer
             while ($product_item = mysqli_fetch_assoc($cart_query)) {
-                $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
-                $product_price = $product_item['price'] * $product_item['quantity'];
-                $price_total += $product_price;
+                $product_name = $product_item['name'];
+                $quantity = $product_item['quantity'];
+                $price = $product_item['price'];
+
+                $insert_items = mysqli_query($con, "INSERT INTO `order_items` 
+                    (order_id, product_name, quantity, price, sold_date) 
+                    VALUES('$order_id', '$product_name', $quantity, $price, CURDATE())");
             }
-        }
-        $total_product = implode(', ', $product_name);
-        $detail_query = mysqli_query($con, "INSERT INTO `orders` 
-    (name,number,email,flat,street,city,pin_code,total_products,total_price,orderId)
-    VALUES('$name','$number','$email','$flat','$street','$city','$pin_code','$total_product','$price_total',$userId)") or die('query failed');
 
-        $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
+            // Clear user's cart
+            $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
 
-        if ($cart_query && $detail_query) {
-            // Redirect to a new page to display order message
-            header("Location:final_order.php?name=$name&number=$number&email=$email&flat=$flat&street=$street&city=$city&pin_code=$pin_code&total_product=$total_product&price_total=$price_total");
-            exit();
+            if ($delete_cart) {
+                header("Location: final_order.php?name=$name&total_price=$price_total");
+                exit();
+            } else {
+                echo "<script>alert('Failed to clear the cart.');</script>";
+            }
+        } else {
+            echo "<script>alert('Failed to place the order.');</script>";
         }
     }
-
-
     ?>
-
 
     <div class="contain">
         <section class="form">
             <h1 class="heading">Complete your order</h1>
-
-
             <form method="post" onsubmit="return validate()" class="checkout-form">
                 <div class="display-order">
                     <?php
@@ -200,55 +172,26 @@ include("dbconnection.php");
                     $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
                     $userId_row = mysqli_fetch_assoc($select_userId);
                     $userId = $userId_row['id'];
-                    $select_cart = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
-                    $total = 0;
+                    $select_cart = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId");
                     $grand_total = 0;
+
                     if (mysqli_num_rows($select_cart) > 0) {
                         while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                             $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
-                            $grand_total = $total += $total_price;
-                    ?>
-                            <span><?= $fetch_cart['name']; ?>(<?= $fetch_cart['quantity']; ?>)</span>
-                    <?php
-                        };
+                            $grand_total += $total_price;
+                            echo "<span>{$fetch_cart['name']} ({$fetch_cart['quantity']})</span>";
+                        }
                     } else {
                         echo "<div class='display-order'><span>Your cart is empty!</span></div>";
                     }
-
                     ?>
-                    <span class="garnd-total">Grand Total:Rs.<?= $grand_total; ?></span>
+                    <span class="grand-total">Grand Total: Rs. <?= $grand_total; ?></span>
                 </div>
                 <div class="flex">
-                    <div class="inputbo">
-                        <span>Your name</span>
-                        <input type="text" placeholder="Enter your name" name="name" required>
-                    </div>
-                    <div class="inputbo">
-                        <span>Your number</span>
-                        <input type="number" placeholder="Enter your number" name="number" id="num">
-                        <p style="color:red" id="numError" class="error"></p>
-                    </div>
-                    <div class="inputbo">
-                        <span>Your email</span>
-                        <input type="text" placeholder="Enter your email" name="email" id="email">
-                        <p style="color:red" id="emailError" class="error"></p>
-                    </div>
-                    <div class="inputbo">
-                        <span>Address line 1</span>
-                        <input type="text" placeholder="e.g. flat no." name="flat" required>
-                    </div>
-                    <div class="inputbo">
-                        <span>Address line 2</span>
-                        <input type="text" placeholder="e.g. street name" name="street" required>
-                    </div>
-                    <div class="inputbo">
-                        <span>City</span>
-                        <input type="text" placeholder="e.g. Kathmandu" name="city" required>
-                    </div>
-                    <div class="inputbo">
-                        <span>Pin code</span>
-                        <input type="text" placeholder="e.g. 12345" name="pin_code" required>
-                    </div>
+                    <!-- Input fields -->
+                    <div class="inputbo"><span>Your name</span><input type="text" name="name" required></div>
+                    <div class="inputbo"><span>Your number</span><input type="number" name="number" id="num" required></div>
+                    <div class="inputbo"><span>Your email</span><input type="email" name="email" id="email" required></div>
                 </div>
                 <input type="submit" value="Pay with Khalti" name="order_btn" class="btn">
                 <input type="submit" value="Order Now" name="cash_btn" class="btn">
@@ -262,32 +205,21 @@ include("dbconnection.php");
             var numREGEX = /^98\d{8}$/;
 
             var email = document.getElementById('email').value;
-            var emailError = document.getElementById('emailError');
-            if (!emailREGEX.test(email)) {
-                emailError.textContent = "*Invalid email";
-            } else {
-                emailError.textContent = "";
-            }
-
             var num = document.getElementById('num').value;
-            var numError = document.getElementById('numError');
-            if (!numREGEX.test(num)) {
-                numError.textContent = "*invalid number.";
-            } else {
-                numError.textContent = "";
-            }
 
-            // Prevent form submission if there are errors
-            if (emailError.textContent || numError.textContent) {
+            var emailError = !emailREGEX.test(email);
+            var numError = !numREGEX.test(num);
+
+            if (emailError || numError) {
+                if (emailError) alert("Invalid email");
+                if (numError) alert("Invalid phone number");
                 return false;
             }
+            return true;
         }
     </script>
-    <?php
-    
-        include("HeaderFooter/footer.php");
-    ?>
 
+    <?php include("HeaderFooter/footer.php"); ?>
 </body>
 
 </html>

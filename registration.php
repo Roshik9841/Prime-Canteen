@@ -1,60 +1,86 @@
 <?php
+// Include DB connection
 include('dbconnection.php');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php'; // Ensure this path is correct
 
 if (isset($_POST['submit'])) {
-    $name =  $_POST['username'];
+    $name = $_POST['username'];
+    $number = $_POST['number'];
     $email = $_POST['email'];
-    
+    $password = $_POST['password'];
+
     // Check if username or email already exists
     $user_exist_query = "SELECT * FROM userinfo WHERE username='$name' OR email='$email'";
     $res = mysqli_query($con, $user_exist_query);
-    
+
     if ($res) {
-        if (mysqli_num_rows($res) > 0) { // Username or email already taken
+        if (mysqli_num_rows($res) > 0) {
             $res_fetch = mysqli_fetch_assoc($res);
-            // Check if username exists
             if ($res_fetch['Username'] == $name) {
                 echo "<script>
                 alert('Username $name is already taken');
                 window.location.href = 'registration.php';
                 </script>";
-            } 
-            // Check if email exists
-            else if ($res_fetch['Email'] == $email) {
+            } elseif ($res_fetch['Email'] == $email) {
                 echo "<script>
                 alert('Email $email is already taken');
                 window.location.href = 'registration.php';
                 </script>";
             }
         } else {
-            $name = $_POST['username'];
-            $number = $_POST['number'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
             // Hash the password for security
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            // Simple query using prepared statements to avoid SQL injection
-            $stmt = $con->prepare("INSERT INTO userinfo (Username, Number, Email, Password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $number, $email, $hashed_password);
+            // Generate a unique verification token
+            $token = bin2hex(random_bytes(32));
 
+            // Insert user data into database with 'verified' set to 0 (unverified)
+            $stmt = $con->prepare("INSERT INTO userinfo (Username, Number, Email, Password, Token, Verified) VALUES (?, ?, ?, ?, ?, 0)");
+            $stmt->bind_param("sssss", $name, $number, $email, $hashed_password, $token);
 
             if ($stmt->execute()) {
-                echo "<script>alert('Registration successful!');</script>";
-                echo "<script>window.location.href = 'login.php';</script>";
+                // Send verification email
+                try {
+                    $mail = new PHPMailer(true);
+
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'Roshik9841@gmail.com'; // Your email
+                    $mail->Password = 'vosq doyh wvee gnul';    // Your app password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port = 587;
+
+                    $mail->setFrom('Roshik9841@gmail.com', 'Prime Canteen');
+                    $mail->addAddress($email); // User's email
+
+                    // Email content
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Verify Your Email';
+                    $mail->Body = "Hello $name,<br><br>Please click the link below to verify your email:<br><br>
+                    <a href='http://localhost/4thphp/verify.php?token=$token'>Verify Email</a><br><br>Thank you!";
+                    $mail->AltBody = "Hello $name, Please click the link to verify your email: http://localhost/4thphp/verify.php?token=$token";
+
+                    $mail->send();
+                    echo "<script>
+                    alert('Registration successful! A verification email has been sent to $email.');
+                    window.location.href = 'login.php';
+                    </script>";
+                } catch (Exception $e) {
+                    echo "Registration successful, but email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
             } else {
                 echo "<script>alert('Error occurred, please try again.');</script>";
             }
 
-            // Close the statement and connection
             $stmt->close();
-            $con->close();
         }
     }
-
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

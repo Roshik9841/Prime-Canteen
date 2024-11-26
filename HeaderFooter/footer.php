@@ -23,10 +23,10 @@
 
             <div class="box">
                 <h3>Opening time</h3>
-                <a href="#">Monday-Friday</a>
-                <a href="#">06:00 am to 06:00 pm</a>
-                <a href="#">Saturday-sunday</a>
-                <a href="#">09:00 am to 05:00 pm</a>
+                <p>Monday-Friday</p>
+                <p>06:00 am to 06:00 pm</p>
+                <p>Saturday-sunday</p>
+                <p>09:00 am to 05:00 pm</p>
             </div>
 
             <div class="box">

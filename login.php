@@ -7,7 +7,6 @@ if (isset($_SESSION['error_message'])) {
     unset($_SESSION['error_message']); 
 }
 
-
 $con = mysqli_connect("localhost", "root", "", "canteen");
 
 if (!$con) {
@@ -22,13 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     // Check if the username and password fields are not empty
     if (!empty($username) && !empty($password)) {
-        // userinfo bata same username bhako xa ki xaina herna
+        // Check if the username exists in the userinfo table
         $query = "SELECT * FROM userinfo WHERE Username = '$username' LIMIT 1";
         $result = mysqli_query($con, $query);
 
-        // yedi xa bhaye 
+        // If the user exists
         if ($result && mysqli_num_rows($result) == 1) {
             $user_data = mysqli_fetch_assoc($result); // Get user data from the database
+
+            // Check if the user has verified their email (Verified = 1)
+            if ($user_data['Verified'] == 0) {
+                // If not verified, show error message and redirect
+                $_SESSION['error_message'] = "Your email is not verified. Please verify your email before logging in.";
+                header("Location: login.php"); 
+                exit;
+            }
 
             // Check if the entered password matches the password in the database
             if (password_verify($password, $user_data['Password'])) {
@@ -37,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $_SESSION['logged_in'] = true;
                 $_SESSION['email'] = $user_data['Email'];
 
-                // yedi username admin ho bhaye admin page ma janxa
+                // If username is Admin, redirect to admin page
                 if ($username === "Admin") {
                     header("Location: admin/dashboard.php"); 
                 } else {
-                    header("Location: index.php");
+                    header("Location: index.php"); // Redirect to user dashboard or homepage
                 }
                 exit; 
             } else {
@@ -51,23 +58,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 exit;
             }
         } else {
-            // yedi user xaina bhaye
+            // If user not found
             $_SESSION['error_message'] = "Username not found";
             header("Location: login.php"); 
             exit;
         }
     } else {
-        // yedi empty xa bhaye
+        // If any of the fields are empty
         $_SESSION['error_message'] = "Please fill in both fields";
         header("Location: login.php"); 
         exit;
     }
 }
 
-
 mysqli_close($con);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +88,6 @@ mysqli_close($con);
             <p class="form-register">LOGIN NOW</p>
             <div>
                 <input type="text" placeholder="Enter your Username" class="form-table" name="uname" required>
-                <input type="hidden" name="email">
                 <input type="password" placeholder="Enter your password" class="form-table" name="password" required>
             </div>
             <div class="center">
@@ -94,10 +98,3 @@ mysqli_close($con);
     </div>
 </body>
 </html>
-
-
-
-
-
-
-
