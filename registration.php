@@ -60,8 +60,8 @@ if (isset($_POST['submit'])) {
                     $mail->isHTML(true);
                     $mail->Subject = 'Verify Your Email';
                     $mail->Body = "Hello $name,<br><br>Please click the link below to verify your email:<br><br>
-                    <a href='http://localhost/4thphp/verify.php?token=$token'>Verify Email</a><br><br>Thank you!";
-                    $mail->AltBody = "Hello $name, Please click the link to verify your email: http://localhost/4thphp/verify.php?token=$token";
+                    <a href='http://localhost/primeCanteen/verify.php?token=$token'>Verify Email</a><br><br>Thank you!";
+                    $mail->AltBody = "Hello $name, Please click the link to verify your email: http://localhost/primeCanteen/verify.php?token=$token";
 
                     $mail->send();
                     echo "<script>
