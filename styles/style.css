@@ -464,6 +464,7 @@ a {
 .product-container > p {
     color: #263675;
     font-weight: bold;
+    padding-left: 90px;
     font-size: 40px;
     line-height: 1;
     margin-bottom: 40px;
@@ -473,6 +474,7 @@ a {
 .search-bar {
     margin-left: 20px;
     display: flex;
+    padding-left: 80px;
     align-items: center;
 }
 
@@ -515,6 +517,7 @@ a {
     box-sizing: border-box;
     margin-bottom: 20px;
     display: flex;
+    text-align: center;
     flex-direction: column;
     align-items: center;
 }
@@ -545,16 +548,17 @@ a {
 .product-name {
     font-weight: bold;
     font-size: 20px;
+    margin: 10px 0;
     color: black;
-    text-align: center;
-    margin-bottom: 10px;
+   
 }
 
 /* Product Price */
 .product-price {
-    color: red;
     font-size: 18px;
-    text-align: center;
+    color: red;
+    margin-top: 5px;
+ 
 }
 
 /* Add to Cart Button */

@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $_SESSION['uname'] = $user_data['Username'];
                 $_SESSION['logged_in'] = true;
                 $_SESSION['email'] = $user_data['Email'];
+                $_SESSION['number'] = $user_data['Number'];
 
                 // If username is Admin, redirect to admin page
                 if ($username === "Admin") {

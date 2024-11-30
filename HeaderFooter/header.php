@@ -54,7 +54,7 @@
                 ?>
                     <a class="cart-link header-link" href="cart.php">
                         <img class="cart-icon" src="images/cart-icon (2).png">
-                        <span style="font-size:16px; color:#F2AD2F;"><?php echo $cart_count; ?></span>
+                        <span style="font-size:16px; color:#F2AD2F; position: relative; bottom:20px; right: 35px"><?php echo $cart_count; ?></span>
                         <div class="cart-text">Cart</div>
                     </a>
                 <?php } else { ?>
