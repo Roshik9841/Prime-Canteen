@@ -97,6 +97,42 @@ session_start(); // Ensure session is started for `$_SESSION['uname']`
 <body>
     <?php include("HeaderFooter/header.php"); ?>
 
+
+    <?php
+
+if (isset($_POST['order_btn'])) {
+    $name = $_POST['name'];
+    $number = $_POST['number'];
+    $email = $_POST['email'];
+  
+    
+    $username = $_SESSION['uname'];
+    $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
+    $userId_row = mysqli_fetch_assoc($select_userId);
+    $userId = $userId_row['id'];
+    $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
+    $price_total = 0;
+    if (mysqli_num_rows($cart_query) > 0) {
+        while ($product_item = mysqli_fetch_assoc($cart_query)) {
+            $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
+            $product_price = $product_item['price'] * $product_item['quantity'];
+            $price_total += $product_price;
+        }
+    }
+    $total_product = implode(', ', $product_name);
+    $detail_query = mysqli_query($con, "INSERT INTO `orders` 
+(name,number,email,total_products,total_price,orderId)
+VALUES('$name','$number','$email','$total_product','$price_total',$userId)") or die('query failed');
+
+
+     $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
+     if ($cart_query && $detail_query) {
+         // Redirect to a new page to display order message
+         header("Location: pay_now.php?name=$name&number=$number&email=$email&total_product=$total_product&price_total=$price_total");
+         exit();
+    }
+}
+?>
    
 <?php    
 
@@ -138,7 +174,7 @@ if (isset($_POST['cash_btn'])) {
 ?>
 
     
-?>
+
     <div class="contain">
         <section class="form">
             <h1 class="heading">Complete your order</h1>

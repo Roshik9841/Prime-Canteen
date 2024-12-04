@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
                 $mail->Subject = 'Order Status Update';
                 $mail->Body = "Dear $user_name,<br><br>Your food is ready!<br><br>Thank you for ordering with us.";
                 $mail->AltBody = "Dear $user_name,\n\nYour food is ready!\n\nThank you for ordering with us.";
-
+ 
                 $mail->send();
                 echo '<script>alert(" Order marked as completed and email sent!");</script>';
             } catch (Exception $e) {

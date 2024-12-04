@@ -16,14 +16,12 @@ include("dbconnection.php");
     box-sizing: border-box;
 }
 
-/* Body styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     padding: 20px;
 }
 
-/* Container for the order message */
 .order-message-container {
     display: flex;
     justify-content: center;
@@ -31,8 +29,6 @@ body {
     min-height: 100vh;
     padding: 20px;
 }
-
-/* Message container styles */
 .message-container {
     background-color: #fff;
     padding: 30px;
@@ -42,7 +38,7 @@ body {
     max-width: 600px;
 }
 
-/* Heading style */
+
 h3 {
     text-align: center;
     color: #28a745;
@@ -50,13 +46,12 @@ h3 {
     margin-bottom: 20px;
 }
 
-/* Order details */
+
 .order-detail {
     margin-top: 20px;
     text-align: left;
 }
 
-/* Product and total details */
 .order-detail span {
     font-size: 1.2em;
     display: block;
@@ -68,7 +63,6 @@ h3 {
     font-weight: bold;
 }
 
-/* Customer details */
 .customer-detail p {
     font-size: 1.1em;
     margin-bottom: 10px;
@@ -78,7 +72,6 @@ h3 {
     font-weight: bold;
 }
 
-/* Continue shopping button */
 .btn {
     display: inline-block;
     background-color: #007bff;
@@ -96,7 +89,6 @@ h3 {
     background-color: #0056b3;
 }
 
-/* Form for payment (hidden, but included for later use) */
 form {
     margin-top: 20px;
 }
@@ -110,7 +102,7 @@ form {
     ?>
 <div class='order-message-container'>
         <div class='message-container'>
-            <h3>Thank you for shopping!</h3>
+            <h3>Thank you for Ordering!</h3>
             <div class='order-detail'>
                 <span><?php echo $_GET['total_product']; ?></span>
                 <span class='total'>Total: Rs.<?php echo $_GET['price_total']; ?></span>
