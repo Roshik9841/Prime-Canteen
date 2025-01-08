@@ -13,7 +13,7 @@ include("../dbconnection.php");
         function fetchDetails() {
             const selectedDate = document.getElementById("selectedDate").value;
             if (selectedDate) {
-                window.location.href = `dailyStats.php?date=${selectedDate}`;
+                window.location.href = `dailystats.php?date=${selectedDate}`;
             }
         }
     </script>
@@ -26,22 +26,21 @@ include("../dbconnection.php");
         <div class="display_message">
             <h2 class="title">Daily Statistics</h2>
 
-            <!-- Calendar for selecting the date -->
+            <!-- Date Picker -->
             <div class="date-picker">
                 <label for="selectedDate">Select a date:</label>
-                <input 
-                    type="date" 
-                    id="selectedDate" 
-                    name="selectedDate" 
-                    max="<?php echo date('Y-m-d'); ?>" 
-                    onchange="fetchDetails()"
-                >
+                <input
+                    type="date"
+                    id="selectedDate"
+                    name="selectedDate"
+                    max="<?php echo date('Y-m-d'); ?>"
+                    onchange="fetchDetails()">
             </div>
 
             <?php
             if (isset($_GET['date'])) {
                 $selected_date = $_GET['date'];
-                echo "<h3 class='subtitle'>Statistics for " . htmlspecialchars($selected_date) . "</h3>";
+                echo "<h3 class='subtitle'>Statistics for " . $selected_date . "</h3>";
 
                 // Fetch orders for the selected date
                 $query_orders_by_date = "
@@ -49,7 +48,6 @@ include("../dbconnection.php");
                     FROM orders
                     WHERE DATE(created_at) = '$selected_date'
                     GROUP BY DATE(created_at)";
-
                 $orders_by_date = mysqli_query($con, $query_orders_by_date);
 
                 echo "<h4>Orders Sold</h4>";
@@ -61,11 +59,11 @@ include("../dbconnection.php");
                             </tr>
                         </thead>
                         <tbody>";
-                if ($orders_by_date && mysqli_num_rows($orders_by_date) > 0) {
+                if (mysqli_num_rows($orders_by_date) > 0) {
                     while ($row = mysqli_fetch_assoc($orders_by_date)) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['order_date']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['total_orders']) . "</td>";
+                        echo "<td>" . $row['order_date'] . "</td>";
+                        echo "<td>" . $row['total_orders'] . "</td>";
                         echo "</tr>";
                     }
                 } else {
@@ -79,7 +77,6 @@ include("../dbconnection.php");
                     FROM order_items
                     WHERE DATE(sold_date) = '$selected_date'
                     GROUP BY DATE(sold_date), product_name";
-
                 $products_by_date = mysqli_query($con, $query_products_by_date);
 
                 echo "<h4>Products Sold</h4>";
@@ -92,12 +89,12 @@ include("../dbconnection.php");
                             </tr>
                         </thead>
                         <tbody>";
-                if ($products_by_date && mysqli_num_rows($products_by_date) > 0) {
+                if (mysqli_num_rows($products_by_date) > 0) {
                     while ($row = mysqli_fetch_assoc($products_by_date)) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['sold_date']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['product_name']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['total_quantity']) . "</td>";
+                        echo "<td>" . $row['sold_date'] . "</td>";
+                        echo "<td>" . $row['product_name'] . "</td>";
+                        echo "<td>" . $row['total_quantity'] . "</td>";
                         echo "</tr>";
                     }
                 } else {

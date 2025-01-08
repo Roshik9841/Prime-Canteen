@@ -1,73 +1,57 @@
 <?php
 include("../dbconnection.php");
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 require '../vendor/autoload.php'; // Ensure this path is correct
+use PHPMailer\PHPMailer\PHPMailer;
 
 // Check if the "Mark as Completed" button is clicked
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     $order_id = intval($_POST['order_id']);
 
     // Fetch order details
-    $query_select_order = "
-        SELECT name, email 
-        FROM orders 
-        WHERE id = ?";
-    $stmt = $con->prepare($query_select_order);
-    $stmt->bind_param("i", $order_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $order = $result->fetch_assoc();
+    $query = "SELECT name, email, created_at FROM orders WHERE id = $order_id";
+    $result = mysqli_query($con, $query);
+    $order = mysqli_fetch_assoc($result);
 
     if ($order) {
         $user_name = $order['name'];
         $user_email = $order['email'];
+        $order_date = $order['created_at'];
 
         // Update the order status to 'Completed'
-        $query_update_order = "
-            UPDATE orders 
-            SET status = 'Completed' 
-            WHERE id = ?";
-        $update_stmt = $con->prepare($query_update_order);
-        $update_stmt->bind_param("i", $order_id);
+        $update_query = "UPDATE orders SET status = 'Completed' WHERE id = $order_id";
+        if (mysqli_query($con, $update_query)) {
+            // Update `order_items` sold_date
+            $update_items_query = "UPDATE order_items SET sold_date = DATE('$order_date') WHERE order_id = $order_id";
+            mysqli_query($con, $update_items_query);
 
-        if ($update_stmt->execute()) {
             // Send email using PHPMailer
             $mail = new PHPMailer(true);
             try {
-                // Server settings
                 $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'Roshik9841@gmail.com'; // Your email
-    $mail->Password = 'vosq doyh wvee gnul';    // Your app password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = 587;
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'Roshik9841@gmail.com'; 
+                $mail->Password = 'vosq doyh wvee gnul'; 
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
 
-                // Recipients
+                // Email details
                 $mail->setFrom('Roshik9841@gmail.com', 'Your Name');
                 $mail->addAddress($user_email, $user_name);
-
-                // Content
-                $mail->isHTML(true);
                 $mail->Subject = 'Order Status Update';
-                $mail->Body = "Dear $user_name,<br><br>Your food is ready!<br><br>Thank you for ordering with us.";
-                $mail->AltBody = "Dear $user_name,\n\nYour food is ready!\n\nThank you for ordering with us.";
- 
+                $mail->Body = "Dear $user_name,\n\nYour food is ready!\n\nThank you for ordering with us.";
+
                 $mail->send();
-                echo '<script>alert(" Order marked as completed and email sent!");</script>';
+                echo '<script>alert("Order marked as completed and email sent!");</script>';
             } catch (Exception $e) {
-                echo "Order marked as completed, but email could not be sent. Error: {$mail->ErrorInfo}";
+                echo '<script>alert("Order updated, but email could not be sent.");</script>';
             }
         } else {
-            echo "Failed to update order status.";
+            echo '<script>alert("Failed to update order status.");</script>';
         }
     } else {
-        echo "Order not found.";
+        echo '<script>alert("Order not found.");</script>';
     }
-
-    $stmt->close();
-    $update_stmt->close();
 }
 ?>
 
@@ -78,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order View</title>
-    <link rel="stylesheet" href="admin-style/style.css" type="text/css">
+    <link rel="stylesheet" href="admin-style/style.css">
 </head>
 
 <body>
@@ -86,16 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
 
     <section class="display_product">
         <div class="display_message">
-            <h2 class="title">Detailed Orders</h2>
+            <h2>Detailed Orders</h2>
             <table class="admin-table">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>User Name</th>
+                        <th>Name</th>
                         <th>Number</th>
                         <th>Email</th>
-                        <th>Total Products</th>
-                        <th>Total Price</th>
+                        <th>Products</th>
+                        <th>Price</th>
                         <th>Status</th>
                         <th>Date</th>
                         <th>Action</th>
@@ -103,28 +87,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $query_select_orders = "
-                        SELECT id, name, number, email, total_products, total_price, status, created_at
-                        FROM orders 
-                        ORDER BY created_at DESC";
+                    $query = "SELECT * FROM orders ORDER BY created_at DESC";
+                    $result = mysqli_query($con, $query);
 
-                    $select_orders = mysqli_query($con, $query_select_orders);
-
-                    if ($select_orders && mysqli_num_rows($select_orders) > 0) {
-                        while ($row = mysqli_fetch_assoc($select_orders)) {
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['number']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['total_products']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['total_price']) . "</td>";
-                            echo "<td>" . htmlspecialchars(ucfirst($row['status'])) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
+                            echo "<td>{$row['id']}</td>";
+                            echo "<td>{$row['name']}</td>";
+                            echo "<td>{$row['number']}</td>";
+                            echo "<td>{$row['email']}</td>";
+                            echo "<td>{$row['total_products']}</td>";
+                            echo "<td>{$row['total_price']}</td>";
+                            echo "<td>" . ucfirst($row['status']) . "</td>";
+                            echo "<td>{$row['created_at']}</td>";
                             echo "<td>";
                             if ($row['status'] === 'Pending') {
-                                echo "<form method='POST' action='' style='display:inline;'>";
-                                echo "<input type='hidden' name='order_id' value='" . htmlspecialchars($row['id']) . "'>";
+                                echo "<form method='POST' action=''>";
+                                echo "<input type='hidden' name='order_id' value='{$row['id']}'>";
                                 echo "<button type='submit'>Mark as Completed</button>";
                                 echo "</form>";
                             } else {

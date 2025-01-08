@@ -29,7 +29,7 @@ if (mysqli_num_rows($select_cart) > 0) {
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => json_encode($payload), // Use json_encode to ensure proper JSON formatting
+        CURLOPT_POSTFIELDS => json_encode($payload), 
         CURLOPT_HTTPHEADER => array(
             'Authorization: Key 0e380c613e884487b6ac92e9a9021fd3',
             'Content-Type: application/json',
@@ -45,7 +45,7 @@ if (mysqli_num_rows($select_cart) > 0) {
         "customer_info" => array(
             "name" => $name,
             "email" => $email,
-            "phone" => "9800000000",
+            "phone" => "9800000",
             "amount" => $total_price
         )
     );
