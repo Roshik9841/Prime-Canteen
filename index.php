@@ -77,22 +77,22 @@
          
             <div class="categories">
                 <div class="meals-description">
-                    <img src="images/breakfast.jpg" class="meals-img">
+                <a href="breakfast.php"><img src="images/breakfast.jpg" class="meals-img"></a>
                     <p class="meals-text">Breakfast</p>
                     <a href="breakfast.php" class="categories-btn">View Details</a>
                 </div>
                 <div class="meals-description">
-                    <img src="images/nonveg.webp" class="meals-img">
+                <a href="non-veg.php"> <img src="images/nonveg.webp" class="meals-img"></a>
                     <p class="meals-text">Non veg Items</p>
                     <a href="non-veg.php" class="categories-btn">View Details</a>
                 </div>
                 <div class="meals-description">
-                    <img src="images/veg.jpg" class="meals-img">
+                <a href="veg.php"> <img src="images/veg.jpg" class="meals-img"></a>
                     <p class="meals-text">Veg Items</p>
                     <a href="veg.php" class="categories-btn">View Details</a>
                 </div> 
                 <div class="meals-description">
-                    <img src="images/drinks.jpg" class="meals-img">
+                    <a href="drinks.php"><img src="images/drinks.jpg" class="meals-img"></a>
                     <p class="meals-text">Drinks</p>
                     <a href="drinks.php" class="categories-btn">View Details</a>
                 </div> 

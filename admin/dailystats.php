@@ -75,8 +75,9 @@ include("../dbconnection.php");
                 $query_products_by_date = "
                     SELECT DATE(sold_date) AS sold_date, product_name, SUM(quantity) AS total_quantity
                     FROM order_items
-                    WHERE DATE(sold_date) = '$selected_date'
+                    WHERE sold_date LIKE '$selected_date%'
                     GROUP BY DATE(sold_date), product_name";
+
                 $products_by_date = mysqli_query($con, $query_products_by_date);
 
                 echo "<h4>Products Sold</h4>";

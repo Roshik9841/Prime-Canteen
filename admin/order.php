@@ -21,7 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
         $update_query = "UPDATE orders SET status = 'Completed' WHERE id = $order_id";
         if (mysqli_query($con, $update_query)) {
             // Update `order_items` sold_date
-            $update_items_query = "UPDATE order_items SET sold_date = DATE('$order_date') WHERE order_id = $order_id";
+            $update_items_query = "UPDATE order_items SET sold_date = DATE(NOW()) WHERE order_id = $order_id";
+            if (!mysqli_query($con, $update_items_query)) {
+                echo "Error updating sold_date: " . mysqli_error($con);
+            }
+
             mysqli_query($con, $update_items_query);
 
             // Send email using PHPMailer

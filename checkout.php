@@ -1,3 +1,5 @@
+
+
 <?php
 include("dbconnection.php");
 session_start(); // Ensure session is started for `$_SESSION['uname']`
@@ -11,6 +13,7 @@ session_start(); // Ensure session is started for `$_SESSION['uname']`
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <style>
+        
     .contain {
         max-width: 1200px;
         margin: 20px auto;
@@ -92,62 +95,26 @@ session_start(); // Ensure session is started for `$_SESSION['uname']`
         background-color: #F4AE35;
     }
     </style>
+    </style>
 </head>
 
 <body>
     <?php include("HeaderFooter/header.php"); ?>
 
-
     <?php
-
-if (isset($_POST['order_btn'])) {
-    $name = $_POST['name'];
-    $number = $_POST['number'];
-    $email = $_POST['email'];
-  
-    
-    $username = $_SESSION['uname'];
-    $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
-    $userId_row = mysqli_fetch_assoc($select_userId);
-    $userId = $userId_row['id'];
-    $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
-    $price_total = 0;
-    if (mysqli_num_rows($cart_query) > 0) {
-        while ($product_item = mysqli_fetch_assoc($cart_query)) {
-            $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
-            $product_price = $product_item['price'] * $product_item['quantity'];
-            $price_total += $product_price;
-        }
-    }
-    $total_product = implode(', ', $product_name);
-    $detail_query = mysqli_query($con, "INSERT INTO `orders` 
-(name,number,email,total_products,total_price,orderId)
-VALUES('$name','$number','$email','$total_product','$price_total',$userId)") or die('query failed');
-
-
-     $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
-     if ($cart_query && $detail_query) {
-         // Redirect to a new page to display order message
-         header("Location: pay_now.php?name=$name&number=$number&email=$email&total_product=$total_product&price_total=$price_total");
-         exit();
-    }
-}
-?>
-   
-<?php    
-
-if (isset($_POST['cash_btn'])) {
+    if (isset($_POST['order_btn'])) {
         $name = $_POST['name'];
         $number = $_POST['number'];
         $email = $_POST['email'];
-     
-        
+
         $username = $_SESSION['uname'];
         $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
         $userId_row = mysqli_fetch_assoc($select_userId);
         $userId = $userId_row['id'];
-        $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
+
+        $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('Cart query failed');
         $price_total = 0;
+
         if (mysqli_num_rows($cart_query) > 0) {
             while ($product_item = mysqli_fetch_assoc($cart_query)) {
                 $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
@@ -157,25 +124,21 @@ if (isset($_POST['cash_btn'])) {
         }
         $total_product = implode(', ', $product_name);
         $detail_query = mysqli_query($con, "INSERT INTO `orders` 
-    (name,number,email,total_products,total_price,orderId)
-    VALUES('$name','$number','$email','$total_product','$price_total',$userId)") or die('query failed');
+        (name, number, email, total_products, total_price, orderId)
+        VALUES('$name', '$number', '$email', '$total_product', '$price_total', $userId)") or die('Order query failed');
 
-     $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
+        // Clear the cart after the order is placed
+        $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
 
-     if ($cart_query && $detail_query) {
-        // Redirect to a new page to display order message
-        header("Location:final_order.php?name=$name&number=$number&email=$email&total_product=$total_product&price_total=$price_total");
-        exit();
-   }
-
+        if ($cart_query && $detail_query) {
+            // Redirect to pay_now.php with the necessary details
+            header("Location: pay_now.php");
+            exit();
+        }
     }
+    ?>
 
-    
-?>
-
-    
-
-    <div class="contain">
+    <div class="container">
         <section class="form">
             <h1 class="heading">Complete your order</h1>
             <form method="post" onsubmit="return validate()" class="checkout-form">
@@ -185,6 +148,7 @@ if (isset($_POST['cash_btn'])) {
                     $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
                     $userId_row = mysqli_fetch_assoc($select_userId);
                     $userId = $userId_row['id'];
+
                     $select_cart = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId");
                     $grand_total = 0;
 
@@ -207,7 +171,6 @@ if (isset($_POST['cash_btn'])) {
                     <div class="inputbo"><span>Your email</span><input type="email" name="email" id="email" value= "<?php echo $_SESSION['email']?>" required></div>
                 </div>
                 <input type="submit" value="Pay with Khalti" name="order_btn" class="btn">
-                <input type="submit" value="Order Now" name="cash_btn" class="btn">
             </form>
         </section>
     </div>
@@ -217,8 +180,8 @@ if (isset($_POST['cash_btn'])) {
             var emailREGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             var numREGEX = /^98\d{8}$/;
 
-            var email = document.getElementById('email').value;
-            var num = document.getElementById('num').value;
+            var email = document.querySelector('input[name="email"]').value;
+            var num = document.querySelector('input[name="number"]').value;
 
             var emailError = !emailREGEX.test(email);
             var numError = !numREGEX.test(num);
