@@ -3,6 +3,9 @@ include("../dbconnection.php");
 require '../vendor/autoload.php'; // Ensure this path is correct
 use PHPMailer\PHPMailer\PHPMailer;
 
+// Set the correct timezone
+date_default_timezone_set('Asia/Kathmandu');
+
 // Check if the "Mark as Completed" button is clicked
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     $order_id = intval($_POST['order_id']);
@@ -15,18 +18,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     if ($order) {
         $user_name = $order['name'];
         $user_email = $order['email'];
-        $order_date = $order['created_at'];
 
         // Update the order status to 'Completed'
         $update_query = "UPDATE orders SET status = 'Completed' WHERE id = $order_id";
         if (mysqli_query($con, $update_query)) {
-            // Update `order_items` sold_date
-            $update_items_query = "UPDATE order_items SET sold_date = DATE(NOW()) WHERE order_id = $order_id";
-            if (!mysqli_query($con, $update_items_query)) {
-                echo "Error updating sold_date: " . mysqli_error($con);
-            }
+            // Get the current date in 'Y-m-d' format
+            $current_date = date('Y-m-d');
 
-            mysqli_query($con, $update_items_query);
+            // Update `order_items` sold_date
+            $update_items_query = "UPDATE order_items SET sold_date = '$current_date' WHERE order_id = $order_id";
+            if (!mysqli_query($con, $update_items_query)) {
+                echo "<script>alert('Error updating sold_date: " . mysqli_error($con) . "');</script>";
+            }
 
             // Send email using PHPMailer
             $mail = new PHPMailer(true);
@@ -34,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'Roshik9841@gmail.com'; 
-                $mail->Password = 'vosq doyh wvee gnul'; 
+                $mail->Username = 'Roshik9841@gmail.com'; // Replace with your email
+                $mail->Password = 'vosq doyh wvee gnul';   // Replace with your app password
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
@@ -46,15 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
                 $mail->Body = "Dear $user_name,\n\nYour food is ready!\n\nThank you for ordering with us.";
 
                 $mail->send();
-                echo '<script>alert("Order marked as completed and email sent!");</script>';
+                echo "<script>alert('Order marked as completed and email sent!');</script>";
             } catch (Exception $e) {
-                echo '<script>alert("Order updated, but email could not be sent.");</script>';
+                echo "<script>alert('Order updated, but email could not be sent. Error: {$mail->ErrorInfo}');</script>";
             }
         } else {
-            echo '<script>alert("Failed to update order status.");</script>';
+            echo "<script>alert('Failed to update order status.');</script>";
         }
     } else {
-        echo '<script>alert("Order not found.");</script>';
+        echo "<script>alert('Order not found.');</script>";
     }
 }
 ?>
@@ -107,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
                             echo "<td>{$row['created_at']}</td>";
                             echo "<td>";
                             if ($row['status'] === 'Pending') {
-                                echo "<form method='POST' action=''>";
+                                echo "<form method='POST' action=''>"; 
                                 echo "<input type='hidden' name='order_id' value='{$row['id']}'>";
                                 echo "<button type='submit'>Mark as Completed</button>";
                                 echo "</form>";
