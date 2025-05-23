@@ -2,14 +2,14 @@
 session_start();
 include("dbconnection.php");
 if (isset($_POST['add_to_cart'])) {
-    // Check if the customer is logged in
+    
     if (!isset($_SESSION['uname'])) {
-        // If not logged in, redirect to login page
+    
         echo '<script>
         alert("Please log in to add items to the cart.");
         window.location.href = "login.php?login=required";
         </script>';
-        exit; // Stop further execution
+        exit; 
     } else {
         $product_name = $_POST['product_name'];
         $product_price = $_POST['product_price'];
@@ -22,11 +22,11 @@ if (isset($_POST['add_to_cart'])) {
         $userId_row = mysqli_fetch_assoc($select_userId);
         $userId = $userId_row['id'];
         if (mysqli_num_rows($select_cart) > 0) {
-            // Show popup if the item is already in the cart
+           
             $message = "Item already in cart!";
             echo '<script>showPopup("' . $message . '");</script>';
         } else {
-            // Insert the item into the cart and show a success message
+            
             $message = "Added to cart.";
             $insert_product = mysqli_query($con, "INSERT INTO cart(id,name, price, image, quantity)
             VALUES($userId,'$product_name',' $product_price','$product_image','$product_quantity')");
@@ -36,7 +36,7 @@ if (isset($_POST['add_to_cart'])) {
 }
 ?>
    
-   <!-- ----------single product details---------- -->
+   
    <!DOCTYPE html>
    <html lang="en">
 
@@ -132,13 +132,13 @@ if (isset($_POST['add_to_cart'])) {
                        <h1><?php echo $product_name ?></h1>
                        <h4>Rs.<?php echo $product_price ?></h4>
 
-                        <!-- Hidden inputs for product details -->
+                       
                     <input type="hidden" name="product_name" value="<?php echo $product_name ?>">
                     <input type="hidden" name="product_price" value="<?php echo $product_price ?>">
                     <input type="hidden" name="product_image" value="<?php echo $product_image ?>">
 
                     
-                       <!-- Add to Cart button -->
+                    
                        <button type="submit" class="cart-btn" name="add_to_cart" style="border:0; width:150px">Add to
                            Cart</button>
                        <h3>Item Details </h3>

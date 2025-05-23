@@ -1,17 +1,16 @@
 <?php
 include("../dbconnection.php");
-require '../vendor/autoload.php'; // Ensure this path is correct
+require '../vendor/autoload.php'; 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// Set the correct timezone
 date_default_timezone_set('Asia/Kathmandu');
 
-// Check if the "Mark as Completed" button is clicked
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
     $order_id = intval($_POST['order_id']);
 
-    // Fetch order details
-    $query = "SELECT name, email, created_at FROM orders WHERE id = $order_id";
+    
+    $query = "SELECT name, email FROM orders WHERE id = $order_id";
     $result = mysqli_query($con, $query);
     $order = mysqli_fetch_assoc($result);
 
@@ -19,42 +18,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
         $user_name = $order['name'];
         $user_email = $order['email'];
 
-        // Update the order status to 'Completed'
+      
         $update_query = "UPDATE orders SET status = 'Completed' WHERE id = $order_id";
-        if (mysqli_query($con, $update_query)) {
-            // Get the current date in 'Y-m-d' format
-            $current_date = date('Y-m-d');
+        if (!mysqli_query($con, $update_query)) {
+            die("<script>alert('Error updating order status: " . mysqli_error($con) . "');</script>");
+        }
 
-            // Update `order_items` sold_date
-            $update_items_query = "UPDATE order_items SET sold_date = '$current_date' WHERE order_id = $order_id";
-            if (!mysqli_query($con, $update_items_query)) {
-                echo "<script>alert('Error updating sold_date: " . mysqli_error($con) . "');</script>";
-            }
+      
+        $current_date = date('Y-m-d');
+        $update_items_query = "UPDATE order_items SET sold_date = '$current_date' WHERE order_id = $order_id";
+        if (!mysqli_query($con, $update_items_query)) {
+            die("<script>alert('Error updating sold_date: " . mysqli_error($con) . "');</script>");
+        }
 
-            // Send email using PHPMailer
+      
+        try {
             $mail = new PHPMailer(true);
-            try {
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'Roshik9841@gmail.com'; // Replace with your email
-                $mail->Password = 'vosq doyh wvee gnul';   // Replace with your app password
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'Roshik9841@gmail.com';
+            $mail->Password = 'vosq doyh wvee gnul'; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
-                // Email details
-                $mail->setFrom('Roshik9841@gmail.com', 'Your Name');
-                $mail->addAddress($user_email, $user_name);
-                $mail->Subject = 'Order Status Update';
-                $mail->Body = "Dear $user_name,\n\nYour food is ready!\n\nThank you for ordering with us.";
+            // Fix SSL verification issue
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
 
-                $mail->send();
-                echo "<script>alert('Order marked as completed and email sent!');</script>";
-            } catch (Exception $e) {
-                echo "<script>alert('Order updated, but email could not be sent. Error: {$mail->ErrorInfo}');</script>";
-            }
-        } else {
-            echo "<script>alert('Failed to update order status.');</script>";
+            $mail->setFrom('Roshik9841@gmail.com', 'Prime Canteen');
+            $mail->addAddress($user_email, $user_name);
+            $mail->Subject = 'Order Status Update';
+            $mail->Body = "Dear $user_name,\n\nYour food is ready!\n\nThank you for ordering with us.";
+
+            $mail->send();
+            echo "<script>alert('Order marked as completed and email sent successfully!');</script>";
+        } catch (Exception $e) {
+            echo "<script>alert('Order updated, but email could not be sent. Error: {$mail->ErrorInfo}');</script>";
         }
     } else {
         echo "<script>alert('Order not found.');</script>";
@@ -64,14 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order View</title>
     <link rel="stylesheet" href="admin-style/style.css">
 </head>
-
 <body>
     <?php include("adminHeader.php"); ?>
 
@@ -129,5 +132,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
         </div>
     </section>
 </body>
-
 </html>

@@ -102,118 +102,112 @@ session_start(); // Ensure session is started for `$_SESSION['uname']`
     <?php include("HeaderFooter/header.php"); ?>
 
     <?php
-    if (isset($_POST['order_btn'])) {
-        $name = $_POST['name'];
-        $number = $_POST['number'];
-        $email = $_POST['email'];
+   if (isset($_POST['order_btn'])) {
+    $name = $_POST['name'];
+    $number = $_POST['number'];
+    $email = $_POST['email'];
 
-        $username = $_SESSION['uname'];
-        $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
-        $userId_row = mysqli_fetch_assoc($select_userId);
-        $userId = $userId_row['id'];
+    $username = $_SESSION['uname'];
+    $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
+    $userId_row = mysqli_fetch_assoc($select_userId);
+    $userId = $userId_row['id'];
 
-        $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('Cart query failed');
-        $price_total = 0;
+    $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('Cart query failed');
+    $price_total = 0;
 
-        if (mysqli_num_rows($cart_query) > 0) {
-            while ($product_item = mysqli_fetch_assoc($cart_query)) {
-                $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
-                $product_price = $product_item['price'] * $product_item['quantity'];
-                $price_total += $product_price;
-            }
-        }
-        $total_product = implode(', ', $product_name);
-        $detail_query = mysqli_query($con, "INSERT INTO `orders` 
-        (name, number, email, total_products, total_price, orderId)
-        VALUES('$name', '$number', '$email', '$total_product', '$price_total', $userId)") or die('Order query failed');
-
-        // Clear the cart after the order is placed
-        $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
-
-        if ($cart_query && $detail_query) {
-            // Redirect to pay_now.php with the necessary details
-            header("Location: pay_now.php");
-            exit();
+    if (mysqli_num_rows($cart_query) > 0) {
+        while ($product_item = mysqli_fetch_assoc($cart_query)) {
+            $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
+            $product_price = $product_item['price'] * $product_item['quantity'];
+            $price_total += $product_price;
         }
     }
-    ?>
+    $total_product = implode(', ', $product_name);
 
-<?php    
+    $detail_query = mysqli_query($con, "INSERT INTO orders 
+        (name, number, email, total_products, total_price, orderId, paymentMode)
+        VALUES('$name', '$number', '$email', '$total_product', '$price_total', $userId, 'khalti')") or die('Order query failed');
+
+    mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
+
+    if ($cart_query && $detail_query) {
+        header("Location: pay_now.php");
+        exit();
+    }
+}
 
 if (isset($_POST['cash_btn'])) {
-        $name = $_POST['name'];
-        $number = $_POST['number'];
-        $email = $_POST['email'];
-     
-        
-        $username = $_SESSION['uname'];
-        $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
-        $userId_row = mysqli_fetch_assoc($select_userId);
-        $userId = $userId_row['id'];
-        $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('O');
-        $price_total = 0;
-        if (mysqli_num_rows($cart_query) > 0) {
-            while ($product_item = mysqli_fetch_assoc($cart_query)) {
-                $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
-                $product_price = $product_item['price'] * $product_item['quantity'];
-                $price_total += $product_price;
-            }
+    $name = $_POST['name'];
+    $number = $_POST['number'];
+    $email = $_POST['email'];
+
+    $username = $_SESSION['uname'];
+    $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
+    $userId_row = mysqli_fetch_assoc($select_userId);
+    $userId = $userId_row['id'];
+
+    $cart_query = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId") or die('Cart query failed');
+    $price_total = 0;
+    if (mysqli_num_rows($cart_query) > 0) {
+        while ($product_item = mysqli_fetch_assoc($cart_query)) {
+            $product_name[] = $product_item['name'] . ' (' . $product_item['quantity'] . ' )';
+            $product_price = $product_item['price'] * $product_item['quantity'];
+            $price_total += $product_price;
         }
-        $total_product = implode(', ', $product_name);
-        $detail_query = mysqli_query($con, "INSERT INTO `orders` 
-    (name,number,email,total_products,total_price,orderId)
-    VALUES('$name','$number','$email','$total_product','$price_total',$userId)") or die('query failed');
-
-     $delete_cart = mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
-
-     if ($cart_query && $detail_query) {
-        // Redirect to a new page to display order message
-        header("Location:final_order.php?name=$name&number=$number&email=$email&total_product=$total_product&price_total=$price_total");
-        exit();
-   }
-
     }
 
-    
+    $total_product = implode(', ', $product_name);
+
+    $detail_query = mysqli_query($con, "INSERT INTO orders 
+        (name, number, email, total_products, total_price, orderId, paymentMode)
+        VALUES('$name','$number','$email','$total_product','$price_total',$userId, 'cash')") or die('query failed');
+
+    mysqli_query($con, "DELETE FROM cart WHERE id = $userId");
+
+    if ($cart_query && $detail_query) {
+        header("Location:final_order.php?name=$name&number=$number&email=$email&total_product=$total_product&price_total=$price_total");
+        exit();
+    }
+}
 ?>
 
-    <div class="container">
-        <section class="form">
-            <h1 class="heading">Complete your order</h1>
-            <form method="post" onsubmit="return validate()" class="checkout-form">
-                <div class="display-order">
-                    <?php
-                    $username = $_SESSION['uname'];
-                    $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
-                    $userId_row = mysqli_fetch_assoc($select_userId);
-                    $userId = $userId_row['id'];
+   <div class="container">
+    <section class="form">
+        <h1 class="heading">Complete your order</h1>
+        <form method="post" onsubmit="return validate()" class="checkout-form">
+            <div class="display-order">
+                <?php
+                $username = $_SESSION['uname'];
+                $select_userId = mysqli_query($con, "SELECT id FROM userinfo WHERE Username = '$username'");
+                $userId_row = mysqli_fetch_assoc($select_userId);
+                $userId = $userId_row['id'];
 
-                    $select_cart = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId");
-                    $grand_total = 0;
+                $select_cart = mysqli_query($con, "SELECT * FROM cart WHERE id= $userId");
+                $grand_total = 0;
 
-                    if (mysqli_num_rows($select_cart) > 0) {
-                        while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
-                            $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
-                            $grand_total += $total_price;
-                            echo "<span>{$fetch_cart['name']} ({$fetch_cart['quantity']})</span>";
-                        }
-                    } else {
-                        echo "<div class='display-order'><span>Your cart is empty!</span></div>";
+                if (mysqli_num_rows($select_cart) > 0) {
+                    while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+                        $total_price = $fetch_cart['price'] * $fetch_cart['quantity'];
+                        $grand_total += $total_price;
+                        echo "<span>{$fetch_cart['name']} ({$fetch_cart['quantity']})</span>";
                     }
-                    ?>
-                    <span class="grand-total">Grand Total: Rs. <?= $grand_total; ?></span>
-                </div>
-                <div class="flex">
-                    <!-- Input fields -->
-                    <div class="inputbo"><span>Your name</span><input type="text" value ="<?PHP echo $_SESSION['uname']?>"name="name" required></div>
-                    <div class="inputbo"><span>Your number</span><input type="number" name="number" id="num" value= "<?php echo $_SESSION['number']?>"required></div>
-                    <div class="inputbo"><span>Your email</span><input type="email" name="email" id="email" value= "<?php echo $_SESSION['email']?>" required></div>
-                </div>
-                <input type="submit" value="Pay with Khalti" name="order_btn" class="btn">
-                <input type="submit" value="Order Now" name="cash_btn" class="btn">
-            </form>
-        </section>
-    </div>
+                } else {
+                    echo "<div class='display-order'><span>Your cart is empty!</span></div>";
+                }
+                ?>
+                <span class="grand-total">Grand Total: Rs. <?= $grand_total; ?></span>
+            </div>
+            <div class="flex">
+                <div class="inputbo"><span>Your name</span><input type="text" value ="<?php echo $_SESSION['uname']?>" name="name" required></div>
+                <div class="inputbo"><span>Your number</span><input type="number" name="number" id="num" value= "<?php echo $_SESSION['number']?>" required></div>
+                <div class="inputbo"><span>Your email</span><input type="email" name="email" id="email" value= "<?php echo $_SESSION['email']?>" required></div>
+            </div>
+            <input type="submit" value="Pay with Khalti" name="order_btn" class="btn">
+            <input type="submit" value="Order Now" name="cash_btn" class="btn">
+        </form>
+    </section>
+</div>
+
 
     <script>
         function validate() {

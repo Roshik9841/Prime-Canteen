@@ -13,12 +13,12 @@
     <?php include('HeaderFooter/header.php'); ?>
 
     <div class="product-container">
-        <!-- Search Bar -->
+       
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search..." class="search-input" onkeyup="searchProducts()">
             <button class="search-btn" onclick="searchProducts()"><i class="fas fa-search"></i></button>
         </div>
-        <!-- Dynamic Search Results -->
+        
         <div id="search-results" class="products-grid"></div>
         
         <p class="product-text">Featured</p>
